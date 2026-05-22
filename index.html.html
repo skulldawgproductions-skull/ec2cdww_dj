@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ's Grimoire — Equipment Tech to Creative Director · Worldwide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0a0f1e; --paper:#0d1b2a; --surface:#112240; --surface2:#1a2e4a;
+  --accent:#00ffe0; --accent2:#005eff; --accent3:#b0ffd9; --danger:#ff4d6d;
+  --gold:#ffd700; --phase1:#00b4d8; --phase2:#0096c7; --phase3:#0077b6;
+  --phase4:#023e8a; --phase5:#03045e; --phase6:#7b2d8b;
+  --deep1:#001529; --deep2:#00253d; --deep3:#003a5c;
+  --biolum:#00ffe0; --coral:#ff6b6b; --kelp:#2dce89;
+  --rule:rgba(0,255,224,0.12); --glow:rgba(0,255,224,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:#c8d8e8;min-height:100vh;overflow-x:hidden}
+
+/* ── DEEP SEA BACKGROUND ── */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 20% 50%,rgba(0,100,180,0.15) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 20%,rgba(0,255,224,0.06) 0%,transparent 40%),
+             radial-gradient(ellipse at 60% 80%,rgba(123,45,139,0.1) 0%,transparent 50%);
+}
+/* Animated particles */
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:0.4}100%{transform:translateY(-20px) scale(1);opacity:0}}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#0a0f1e}
+::-webkit-scrollbar-thumb{background:rgba(0,255,224,0.3);border-radius:3px}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;background:rgba(13,27,42,0.92);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--rule);
+  padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:54px}
+.nav-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;
+  letter-spacing:.06em;color:var(--accent);text-decoration:none;text-shadow:0 0 12px rgba(0,255,224,0.5)}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{font-size:11px;font-weight:500;color:#c8d8e8;text-decoration:none;
+  padding:4px 10px;border-radius:20px;opacity:.55;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{opacity:1;background:var(--surface)}
+.nav-links a.active{opacity:1;background:var(--surface2);color:var(--accent);border:1px solid var(--rule)}
+
+/* ── DEPTH METER ── */
+.depth-meter{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:150;
+  display:flex;flex-direction:column;gap:6px;align-items:center}
+.depth-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,255,224,0.15);
+  border:1px solid rgba(0,255,224,0.3);cursor:pointer;transition:all .2s}
+.depth-dot.active,.depth-dot:hover{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.depth-label{font-size:9px;color:rgba(0,255,224,0.4);writing-mode:vertical-rl;
+  text-transform:uppercase;letter-spacing:.12em;margin-top:6px}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;padding:5rem 2rem 4rem;max-width:960px;margin:0 auto}
+.hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:1.25rem;text-shadow:0 0 8px rgba(0,255,224,0.4)}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);
+  font-weight:800;line-height:1.05;color:#fff;margin-bottom:1.5rem}
+.hero-title em{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,255,224,0.5)}
+.hero-sub{font-size:1rem;font-weight:300;color:rgba(200,216,232,.65);max-width:600px;line-height:1.8;margin-bottom:2rem}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem}
+.hero-pill{font-size:11px;font-weight:500;padding:4px 12px;border:1px solid var(--rule);
+  border-radius:20px;background:rgba(0,255,224,0.06);color:var(--accent3)}
+
+/* ── OVERALL PROGRESS ── */
+.progress-header{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);
+  border:1px solid var(--rule);border-radius:16px;padding:1.5rem;margin-bottom:2rem}
+.progress-header h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.phase-progress-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.phase-prog-item{background:rgba(0,0,0,0.3);border-radius:10px;padding:.7rem;
+  border:1px solid rgba(0,255,224,0.08)}
+.phase-prog-label{font-size:10px;color:rgba(200,216,232,.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em}
+.phase-prog-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.phase-prog-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1);
+  background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.phase-prog-pct{font-size:11px;color:var(--accent);font-family:'DM Mono',monospace}
+.total-depth{text-align:center;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--rule)}
+.total-depth-num{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:var(--accent)}
+.total-depth-label{font-size:11px;color:rgba(200,216,232,.4);text-transform:uppercase;letter-spacing:.12em}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:3rem 2rem}
+.section-label{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.6rem}
+.section-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;
+  color:#fff;margin-bottom:1.5rem;line-height:1.2}
+.section-divider{max-width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--rule),transparent)}
+
+/* ── CHECKPOINT / AWARD SYSTEM ── */
+.checkpoint-bar{background:linear-gradient(135deg,rgba(0,255,224,0.05),rgba(0,94,255,0.08));
+  border:1px solid var(--rule);border-radius:14px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:16px}
+.checkpoint-icon{font-size:2rem;filter:drop-shadow(0 0 8px rgba(0,255,224,0.5));flex-shrink:0}
+.checkpoint-content{flex:1}
+.checkpoint-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent);margin-bottom:3px}
+.checkpoint-desc{font-size:12px;color:rgba(200,216,232,.5);line-height:1.5}
+.checkpoint-status{flex-shrink:0}
+.btn-checkpoint{font-size:11px;padding:6px 14px;border-radius:20px;cursor:pointer;
+  border:1px solid var(--accent);background:transparent;color:var(--accent);
+  transition:all .15s;font-family:'DM Sans',sans-serif;font-weight:500}
+.btn-checkpoint:hover,.btn-checkpoint.earned{background:var(--accent);color:var(--ink)}
+.btn-checkpoint.earned{cursor:default}
+.awards-shelf{display:flex;flex-wrap:wrap;gap:10px;margin-top:1rem}
+.award-badge{display:flex;flex-direction:column;align-items:center;gap:4px;
+  background:rgba(0,255,224,0.05);border:1px solid rgba(0,255,224,0.15);
+  border-radius:12px;padding:.7rem .9rem;min-width:80px;cursor:pointer;
+  transition:all .2s;opacity:.4;filter:grayscale(1)}
+.award-badge.unlocked{opacity:1;filter:none;border-color:var(--gold);
+  box-shadow:0 0 12px rgba(255,215,0,0.25)}
+.award-badge:hover.unlocked{transform:translateY(-2px)}
+.award-badge .award-icon{font-size:1.6rem}
+.award-badge .award-name{font-size:9px;text-align:center;color:rgba(200,216,232,.5);
+  text-transform:uppercase;letter-spacing:.06em}
+.award-badge.unlocked .award-name{color:var(--gold)}
+
+/* ── WEEKLY WINS ── */
+.wins-container{background:var(--surface);border:1px solid var(--rule);border-radius:14px;
+  padding:1.5rem;margin-bottom:1.5rem}
+.wins-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--accent);
+  margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.win-form{display:flex;gap:8px;margin-bottom:1rem}
+.win-form input{flex:1;background:rgba(0,0,0,0.4);border:1px solid var(--rule);border-radius:8px;
+  padding:.5rem .9rem;color:#c8d8e8;font-family:'DM Sans',sans-serif;font-size:13px;outline:none}
+.win-form input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,255,224,0.08)}
+.win-form select{background:rgba(0,0,0,0.4);border:1px solid var(--rule);border-radius:8px;
+  padding:.5rem .7rem;color:#c8d8e8;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;cursor:pointer}
+.win-form button{padding:.5rem 1rem;border-radius:8px;border:1px solid var(--accent);
+  background:rgba(0,255,224,0.1);color:var(--accent);cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-size:12px;font-weight:500;transition:all .15s;white-space:nowrap}
+.win-form button:hover{background:var(--accent);color:var(--ink)}
+.win-entry{display:flex;align-items:flex-start;gap:10px;padding:.7rem;
+  background:rgba(0,0,0,0.3);border-radius:8px;margin-bottom:6px;
+  border-left:3px solid var(--accent);animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.win-tag{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.win-tag-tech{background:rgba(0,180,216,0.2);color:#00b4d8}
+.win-tag-health{background:rgba(45,206,137,0.2);color:#2dce89}
+.win-tag-school{background:rgba(255,215,0,0.15);color:#ffd700}
+.win-tag-art{background:rgba(176,0,255,0.2);color:#b06eff}
+.win-tag-life{background:rgba(255,107,107,0.2);color:#ff6b6b}
+.win-text{flex:1;font-size:13px;color:rgba(200,216,232,.8);line-height:1.5}
+.win-date{font-size:10px;color:rgba(200,216,232,.3);font-family:'DM Mono',monospace;white-space:nowrap}
+.win-del{background:none;border:none;color:rgba(255,107,107,.4);cursor:pointer;font-size:14px;padding:0 4px;transition:color .15s}
+.win-del:hover{color:var(--danger)}
+.wins-empty{font-size:13px;color:rgba(200,216,232,.25);text-align:center;padding:1.5rem;font-style:italic}
+
+/* ── COUNTRY / DESTINATION CARDS ── */
+.country-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.ctab{font-size:11px;font-weight:500;padding:5px 13px;border-radius:20px;
+  border:1px solid var(--rule);background:rgba(0,255,224,0.04);color:rgba(200,216,232,.5);
+  cursor:pointer;transition:all .15s}
+.ctab.active{background:rgba(0,255,224,0.12);border-color:var(--accent);color:var(--accent)}
+.country-panel{display:none}.country-panel.active{display:block}
+.country-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.country-card{background:var(--surface);border:1px solid var(--rule);border-radius:14px;
+  overflow:hidden;transition:transform .2s,box-shadow .2s}
+.country-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,255,224,0.08)}
+.country-card.top{border-color:rgba(0,255,224,0.4);box-shadow:0 0 0 1px rgba(0,255,224,0.2)}
+.country-head{padding:.85rem 1rem .7rem;border-bottom:1px solid var(--rule)}
+.country-flag{font-size:26px;margin-bottom:5px;display:block}
+.country-name{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;color:#fff}
+.country-verdict{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block}
+.v-best{background:rgba(45,206,137,0.15);color:#2dce89;border:1px solid rgba(45,206,137,0.2)}
+.v-good{background:rgba(0,180,216,0.15);color:#00b4d8;border:1px solid rgba(0,180,216,0.2)}
+.v-caution{background:rgba(255,215,0,0.12);color:#ffd700;border:1px solid rgba(255,215,0,0.2)}
+.country-body{padding:.85rem 1rem}
+.c-row{margin-bottom:.6rem}
+.c-label{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(200,216,232,.35);margin-bottom:2px}
+.c-val{font-size:12px;line-height:1.5;color:rgba(200,216,232,.8)}
+.c-warn{font-size:11px;color:#ff9a6c;line-height:1.4;margin-top:.5rem;padding:.4rem .7rem;
+  background:rgba(255,107,107,0.08);border-radius:6px;border-left:2px solid var(--coral)}
+.c-ok{font-size:11px;color:var(--kelp);line-height:1.4;margin-top:.4rem;padding:.4rem .7rem;
+  background:rgba(45,206,137,0.08);border-radius:6px;border-left:2px solid var(--kelp)}
+.jobs-tag{font-size:10px;padding:2px 7px;border-radius:12px;
+  background:rgba(0,94,255,0.15);color:#6eb4ff;border:1px solid rgba(0,94,255,0.2);
+  display:inline-block;margin:2px 2px 0 0}
+
+/* ── ALERT / SUCCESS BOXES ── */
+.alert{background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.2);
+  border-left:3px solid var(--danger);border-radius:10px;padding:1rem 1.2rem;
+  font-size:13px;line-height:1.65;color:rgba(200,216,232,.8);margin-bottom:1.5rem}
+.alert strong{color:var(--danger)}
+.success-box{background:rgba(45,206,137,0.07);border:1px solid rgba(45,206,137,0.2);
+  border-left:3px solid var(--kelp);border-radius:10px;padding:1rem 1.2rem;
+  font-size:13px;line-height:1.65;color:rgba(200,216,232,.8);margin-top:1.5rem}
+.success-box strong{color:var(--kelp)}
+.info-box{background:rgba(0,255,224,0.05);border:1px solid var(--rule);
+  border-left:3px solid var(--accent);border-radius:10px;padding:1rem 1.2rem;
+  font-size:13px;line-height:1.65;color:rgba(200,216,232,.8);margin-bottom:1rem}
+.info-box strong{color:var(--accent)}
+
+/* ── SAVING PHASE CALCULATOR ── */
+.saving-calc{background:var(--surface);border:1px solid var(--rule);border-radius:16px;
+  padding:1.5rem;margin-bottom:1.5rem}
+.saving-calc h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.calc-field label{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(200,216,232,.4);margin-bottom:5px}
+.calc-field input,.calc-field select{width:100%;background:rgba(0,0,0,0.4);border:1px solid var(--rule);
+  border-radius:8px;padding:.5rem .8rem;color:#c8d8e8;font-family:'DM Mono',monospace;
+  font-size:13px;outline:none;transition:border .15s}
+.calc-field input:focus,.calc-field select:focus{border-color:var(--accent)}
+.calc-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:1rem}
+.calc-result-box{background:rgba(0,0,0,0.4);border-radius:10px;padding:.85rem 1rem;
+  border:1px solid rgba(0,255,224,0.1);text-align:center}
+.calc-result-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--accent)}
+.calc-result-label{font-size:10px;color:rgba(200,216,232,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.timeline-bar{display:flex;gap:0;margin-top:1.2rem;border-radius:8px;overflow:hidden;height:28px}
+.timeline-seg{display:flex;align-items:center;justify-content:center;font-size:10px;
+  font-weight:600;transition:flex .8s ease;min-width:0;overflow:hidden;white-space:nowrap}
+.tl-save{background:rgba(0,255,224,0.25);color:var(--accent)}
+.tl-move{background:rgba(0,94,255,0.35);color:#6eb4ff}
+.tl-settle{background:rgba(45,206,137,0.25);color:#2dce89}
+.tl-dir{background:rgba(255,215,0,0.2);color:#ffd700}
+
+/* ── PHASE TABS ── */
+.phase-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem}
+.phase-tab{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;
+  padding:6px 12px;border-radius:20px;border:1px solid var(--rule);
+  background:rgba(0,255,224,0.04);color:rgba(200,216,232,.5);
+  cursor:pointer;transition:all .15s;line-height:1.4;text-align:left}
+.phase-tab span{font-weight:300;opacity:.6;display:block;font-size:10px}
+.phase-tab:hover{border-color:rgba(0,255,224,0.3);color:#c8d8e8}
+.phase-tab.active{color:var(--ink);border-color:transparent;font-weight:600}
+.pt0.active{background:var(--phase1);text-shadow:none}
+.pt1.active{background:var(--phase2)}
+.pt2.active{background:var(--phase3)}
+.pt3.active{background:var(--phase4);color:#fff}
+.pt4.active{background:var(--phase5);color:#fff}
+.pt5.active{background:var(--phase6);color:#fff}
+.phase-content{display:none}.phase-content.show{display:block}
+.phase-banner{border-radius:12px;padding:.85rem 1.15rem;font-size:12.5px;
+  line-height:1.55;margin-bottom:1rem;border:1px solid transparent}
+.phase-banner h3{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:3px;color:#fff}
+.pb0{background:rgba(0,180,216,0.1);border-color:rgba(0,180,216,0.2);color:rgba(200,216,232,.7)}
+.pb1{background:rgba(0,150,199,0.1);border-color:rgba(0,150,199,0.2);color:rgba(200,216,232,.7)}
+.pb2{background:rgba(0,119,182,0.1);border-color:rgba(0,119,182,0.2);color:rgba(200,216,232,.7)}
+.pb3{background:rgba(2,62,138,0.15);border-color:rgba(2,62,138,0.3);color:rgba(200,216,232,.7)}
+.pb4{background:rgba(3,4,94,0.2);border-color:rgba(3,4,94,0.4);color:rgba(200,216,232,.7)}
+.pb5{background:rgba(123,45,139,0.15);border-color:rgba(123,45,139,0.3);color:rgba(200,216,232,.7)}
+
+/* ── WEEK CARDS ── */
+.week-list{display:flex;flex-direction:column;gap:8px}
+.week-card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;overflow:hidden;
+  transition:border-color .2s}
+.week-card.completed{border-color:rgba(45,206,137,0.4)}
+.week-header{display:flex;align-items:center;gap:10px;padding:.65rem 1rem;cursor:pointer;
+  transition:background .12s;position:relative}
+.week-header:hover{background:var(--surface2)}
+.week-check{width:20px;height:20px;border-radius:5px;border:1px solid var(--rule);
+  background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .15s;font-size:11px}
+.week-check.done{background:rgba(45,206,137,0.2);border-color:var(--kelp);color:var(--kelp)}
+.week-num{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;font-family:'DM Mono',monospace}
+.wn0{background:rgba(0,180,216,0.15);color:#00b4d8}
+.wn1{background:rgba(0,150,199,0.15);color:#0096c7}
+.wn2{background:rgba(0,119,182,0.15);color:#0077b6}
+.wn3{background:rgba(2,62,138,0.2);color:#4d9de0}
+.wn4{background:rgba(3,4,94,0.25);color:#8fa8f0}
+.wn5{background:rgba(123,45,139,0.2);color:#c084fc}
+.week-title{font-size:13px;font-weight:500;flex:1;color:rgba(200,216,232,.85)}
+.week-arrow{font-size:12px;color:rgba(200,216,232,.2);transition:transform .2s;flex-shrink:0}
+.week-arrow.open{transform:rotate(180deg)}
+.week-body{display:none;padding:0 1rem 1rem}
+.week-body.open{display:block}
+.week-section{margin-bottom:.75rem}
+.week-section-label{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(200,216,232,.3);margin-bottom:5px}
+.week-task{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;
+  line-height:1.55;color:rgba(200,216,232,.75);margin-bottom:4px}
+.week-task::before{content:'→';color:var(--accent);opacity:.5;flex-shrink:0;margin-top:1px}
+.week-lang{color:#5eddaa}
+.week-health{color:#ff9a9a}
+.week-aws{color:#ffc97a}
+.milestone-box{margin-top:.75rem;padding:.6rem .9rem;border-radius:8px;border-left:3px solid;
+  font-size:12.5px;line-height:1.5;font-weight:500}
+.ms0{border-color:var(--phase1);background:rgba(0,180,216,0.08);color:#5cc8e8}
+.ms1{border-color:var(--phase2);background:rgba(0,150,199,0.08);color:#5bc0df}
+.ms2{border-color:var(--phase3);background:rgba(0,119,182,0.08);color:#5ab0d4}
+.ms3{border-color:var(--phase4);background:rgba(2,62,138,0.12);color:#7098c8}
+.ms4{border-color:var(--phase5);background:rgba(3,4,94,0.15);color:#8090e0}
+.ms5{border-color:var(--phase6);background:rgba(123,45,139,0.12);color:#c084fc}
+
+/* ── DIALYSIS SECTION ── */
+.dialysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem}
+.dialysis-card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.1rem}
+.dialysis-card.active-access{border-color:rgba(45,206,137,0.4);box-shadow:0 0 12px rgba(45,206,137,0.1)}
+.dialysis-card.nonfunc{border-color:rgba(255,107,107,0.3);box-shadow:0 0 12px rgba(255,107,107,0.08)}
+.dialysis-card.complex{border-color:rgba(255,215,0,0.25);box-shadow:0 0 12px rgba(255,215,0,0.06)}
+.dialysis-icon{font-size:1.8rem;margin-bottom:.5rem}
+.dialysis-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:#fff;margin-bottom:.4rem}
+.dialysis-desc{font-size:12px;color:rgba(200,216,232,.6);line-height:1.6}
+.dialysis-badge{font-size:10px;padding:2px 8px;border-radius:20px;display:inline-block;margin-top:.5rem;font-weight:600}
+.db-active{background:rgba(45,206,137,0.15);color:var(--kelp);border:1px solid rgba(45,206,137,0.25)}
+.db-nonfunc{background:rgba(255,107,107,0.1);color:#ff9a9a;border:1px solid rgba(255,107,107,0.2)}
+.db-hero{background:rgba(255,215,0,0.1);color:#ffd700;border:1px solid rgba(255,215,0,0.2)}
+.db-complex{background:rgba(176,0,255,0.12);color:#c084fc;border:1px solid rgba(176,0,255,0.2)}
+
+/* ── SKILLS GRID ── */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.skill-card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:1rem 1.1rem;transition:transform .2s,border-color .2s;cursor:pointer}
+.skill-card:hover{transform:translateY(-2px);border-color:rgba(0,255,224,0.25)}
+.skill-card.unlocked{border-color:rgba(0,255,224,0.3)}
+.skill-icon{font-size:20px;margin-bottom:.5rem}
+.skill-name{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:.3rem;color:#fff}
+.skill-desc{font-size:11.5px;color:rgba(200,216,232,.55);line-height:1.5}
+.skill-tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;display:inline-block;margin-top:.45rem}
+.st-now{background:rgba(45,206,137,0.15);color:var(--kelp)}
+.st-6m{background:rgba(0,180,216,0.15);color:#00b4d8}
+.st-grad{background:rgba(255,107,107,0.12);color:#ff9a9a}
+.skill-progress{margin-top:.7rem}
+.skill-prog-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.skill-prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width 1s ease}
+
+/* ── MENTORS SECTION ── */
+.mentors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:1rem}
+.mentor-card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:1.1rem;transition:transform .2s}
+.mentor-card:hover{transform:translateY(-2px)}
+.mentor-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:.7rem}
+.mentor-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:#fff;margin-bottom:2px}
+.mentor-role{font-size:11px;color:rgba(200,216,232,.4);margin-bottom:.5rem}
+.mentor-note{font-size:11.5px;color:rgba(200,216,232,.6);line-height:1.5}
+.mentor-del{background:none;border:none;color:rgba(255,107,107,.3);cursor:pointer;font-size:13px;
+  float:right;margin-top:-30px;transition:color .15s}
+.mentor-del:hover{color:var(--danger)}
+.add-form{background:rgba(0,0,0,0.3);border:1px dashed rgba(0,255,224,0.2);border-radius:12px;
+  padding:1rem;margin-top:.5rem}
+.add-form-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(200,216,232,.4);margin-bottom:.8rem}
+.add-form-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.add-form-row input,.add-form-row textarea,.add-form-row select{
+  background:rgba(0,0,0,0.4);border:1px solid var(--rule);border-radius:8px;
+  padding:.45rem .8rem;color:#c8d8e8;font-family:'DM Sans',sans-serif;font-size:12.5px;
+  outline:none;transition:border .15s;flex:1;min-width:120px}
+.add-form-row input:focus,.add-form-row textarea:focus{border-color:var(--accent)}
+.add-form-row textarea{resize:vertical;min-height:60px}
+.btn-add{padding:.45rem 1rem;border-radius:8px;border:1px solid var(--accent);
+  background:rgba(0,255,224,0.08);color:var(--accent);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  transition:all .15s;white-space:nowrap}
+.btn-add:hover{background:var(--accent);color:var(--ink)}
+.btn-del{padding:.35rem .8rem;border-radius:8px;border:1px solid rgba(255,77,109,.2);
+  background:rgba(255,77,109,.06);color:#ff9a9a;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:11px;transition:all .15s}
+.btn-del:hover{background:rgba(255,77,109,.15)}
+
+/* ── PROJECTS / PORTFOLIO ── */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:1rem}
+.project-card{background:var(--surface);border:1px solid var(--rule);border-radius:12px;overflow:hidden;
+  transition:transform .2s,border-color .2s}
+.project-card:hover{transform:translateY(-3px);border-color:rgba(0,255,224,0.25)}
+.project-thumb{height:110px;background:linear-gradient(135deg,var(--deep2),var(--deep3));
+  display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative;overflow:hidden}
+.project-thumb-img{width:100%;height:100%;object-fit:cover}
+.project-type-badge{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 7px;
+  border-radius:10px;font-weight:600;backdrop-filter:blur(4px)}
+.pt-design{background:rgba(0,255,224,0.2);color:var(--accent)}
+.pt-dev{background:rgba(0,94,255,0.3);color:#6eb4ff}
+.pt-aws{background:rgba(255,215,0,0.2);color:#ffd700}
+.pt-art{background:rgba(176,0,255,0.2);color:#c084fc}
+.project-body{padding:.85rem 1rem}
+.project-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:#fff;margin-bottom:4px}
+.project-desc{font-size:11.5px;color:rgba(200,216,232,.5);line-height:1.5;margin-bottom:.5rem}
+.project-tags{display:flex;flex-wrap:wrap;gap:4px}
+.project-tag{font-size:9px;padding:2px 6px;border-radius:8px;background:rgba(0,255,224,0.08);
+  color:rgba(200,216,232,.5);border:1px solid rgba(0,255,224,0.1)}
+.project-links{display:flex;gap:6px;margin-top:.6rem}
+.project-link{font-size:10px;padding:3px 9px;border-radius:6px;text-decoration:none;
+  border:1px solid var(--rule);color:rgba(200,216,232,.5);transition:all .15s}
+.project-link:hover{border-color:var(--accent);color:var(--accent)}
+.video-reel{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:1.2rem;margin-bottom:1rem}
+.video-reel h4{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;color:var(--accent);
+  margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.video-entry{display:flex;align-items:center;gap:10px;padding:.55rem;
+  background:rgba(0,0,0,0.3);border-radius:8px;margin-bottom:6px;
+  border:1px solid rgba(0,255,224,0.06)}
+.video-thumb{width:48px;height:36px;background:var(--deep2);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.video-title{flex:1;font-size:12px;color:rgba(200,216,232,.8)}
+.video-date{font-size:10px;color:rgba(200,216,232,.3);font-family:'DM Mono',monospace}
+
+/* ── JOBS SECTION ── */
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:1rem}
+.job-card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:1rem}
+.job-region{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(200,216,232,.3);margin-bottom:.4rem}
+.job-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:#fff;margin-bottom:.3rem}
+.job-salary{font-size:13px;font-weight:600;color:var(--kelp);font-family:'DM Mono',monospace;margin-bottom:.4rem}
+.job-note{font-size:11px;color:rgba(200,216,232,.45);line-height:1.5}
+.job-demand{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;margin-top:.4rem;display:inline-block}
+.jd-high{background:rgba(45,206,137,0.15);color:var(--kelp);border:1px solid rgba(45,206,137,0.2)}
+.jd-med{background:rgba(255,215,0,0.12);color:#ffd700;border:1px solid rgba(255,215,0,0.2)}
+.jd-grow{background:rgba(0,180,216,0.15);color:#00b4d8;border:1px solid rgba(0,180,216,0.2)}
+.last-updated{font-size:10px;color:rgba(200,216,232,.25);font-style:italic;margin-top:.5rem;
+  font-family:'DM Mono',monospace}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;border-top:1px solid var(--rule);padding:2rem;
+  text-align:center;font-size:12px;color:rgba(200,216,232,.3)}
+footer strong{color:var(--accent)}
+
+/* ── ANIMATIONS / UTILS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero{animation:fadeUp .6s ease both}
+@keyframes glow{0%,100%{text-shadow:0 0 12px rgba(0,255,224,0.4)}50%{text-shadow:0 0 24px rgba(0,255,224,0.8)}}
+.glow-text{animation:glow 3s ease-in-out infinite}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,224,0.12),transparent);margin:0}
+.badge{font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block;vertical-align:middle}
+.badge-new{background:rgba(0,255,224,0.15);color:var(--accent);border:1px solid rgba(0,255,224,0.2)}
+.badge-soon{background:rgba(255,215,0,0.12);color:#ffd700;border:1px solid rgba(255,215,0,0.2)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999;
+  background:rgba(0,255,224,0.12);border:1px solid var(--accent);backdrop-filter:blur(12px);
+  border-radius:24px;padding:.5rem 1.2rem;font-size:12px;color:var(--accent);
+  opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:640px){
+  nav{padding:0 1rem}.nav-links a:not(.active){display:none}
+  section{padding:2.5rem 1.25rem}.hero{padding:3rem 1.25rem 2.5rem}
+  .calc-grid{grid-template-columns:1fr}.depth-meter{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- DEPTH METER -->
+<div class="depth-meter" id="depthMeter">
+  <div class="depth-label">DEPTH</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-brand glow-text">🌊 DJ → EC2CD · WORLDWIDE</a>
+  <div class="nav-links">
+    <a href="#wins">Wins</a>
+    <a href="#destinations">Destinations</a>
+    <a href="#health">Health</a>
+    <a href="#saving">Saving</a>
+    <a href="#skills">Skills</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#mentors">Mentors</a>
+    <a href="#projects">Projects</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <p class="hero-eyebrow">🌊 Deep Sea Expedition — Career Grimoire · May 2026 → October 2027</p>
+  <h1 class="hero-title">Equipment Tech<br>→ <em>Creative Director.</em><br>Detroit → <em>World.</em></h1>
+  <p class="hero-sub">DJ's living career plan, portfolio, and worldwide relocation guide. Track every checkpoint, unlock awards for each phase, log weekly wins, and hunt the eldritch depths of creative technology — with dialysis fully covered, every step documented.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">🎓 BA Graphic Design — Oct 2027</span>
+    <span class="hero-pill">☁️ AWS Cloud Practitioner</span>
+    <span class="hero-pill">⚛️ React Developer</span>
+    <span class="hero-pill">🌍 Worldwide relocation</span>
+    <span class="hero-pill">🏥 Left groin catheter · Chest HERO graft</span>
+    <span class="hero-pill">🗺️ 20+ eligible destinations</span>
+    <span class="hero-pill">🏆 Achievement system</span>
+  </div>
+
+  <!-- OVERALL PROGRESS TRACKER -->
+  <div class="progress-header">
+    <h3>🗺️ Expedition Progress — Depths Conquered</h3>
+    <div class="phase-progress-grid" id="phaseProgressGrid"></div>
+    <div class="total-depth">
+      <div class="total-depth-num" id="totalPct">0%</div>
+      <div class="total-depth-label">Total Expedition Depth Reached</div>
+    </div>
+  </div>
+
+  <!-- AWARDS SHELF -->
+  <div style="margin-bottom:1.5rem">
+    <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(200,216,232,.3);margin-bottom:.8rem">🏆 Trophies from the Deep</div>
+    <div class="awards-shelf" id="awardsShelf">
+      <div class="award-badge" data-award="portfolio_live"><div class="award-icon">🪸</div><div class="award-name">Portfolio Live</div></div>
+      <div class="award-badge" data-award="aws_cp"><div class="award-icon">☁️</div><div class="award-name">AWS Certified</div></div>
+      <div class="award-badge" data-award="medical_passport"><div class="award-icon">🗂️</div><div class="award-name">Medical Passport</div></div>
+      <div class="award-badge" data-award="first_app"><div class="award-icon">✉️</div><div class="award-name">First App Sent</div></div>
+      <div class="award-badge" data-award="react_live"><div class="award-icon">⚛️</div><div class="award-name">React Live</div></div>
+      <div class="award-badge" data-award="visa_docs"><div class="award-icon">📜</div><div class="award-name">Visa Docs Ready</div></div>
+      <div class="award-badge" data-award="offer_received"><div class="award-icon">🔱</div><div class="award-name">Offer Received</div></div>
+      <div class="award-badge" data-award="dialysis_abroad"><div class="award-icon">🏥</div><div class="award-name">Dialysis Abroad</div></div>
+      <div class="award-badge" data-award="degree_conferred"><div class="award-icon">🎓</div><div class="award-name">BA Conferred</div></div>
+      <div class="award-badge" data-award="departed"><div class="award-icon">🌊</div><div class="award-name">Detroit → World</div></div>
+      <div class="award-badge" data-award="mentor_added"><div class="award-icon">🧭</div><div class="award-name">First Mentor</div></div>
+      <div class="award-badge" data-award="ten_wins"><div class="award-icon">⚡</div><div class="award-name">10 Work Wins</div></div>
+      <div class="award-badge" data-award="savings_goal"><div class="award-icon">💎</div><div class="award-name">Savings Goal</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEKLY WINS -->
+<div class="divider"></div>
+<section id="wins">
+  <p class="section-label">Living Record</p>
+  <h2 class="section-title">Weekly Work Wins 🏆</h2>
+  <p style="font-size:13px;color:rgba(200,216,232,.4);margin-bottom:1.5rem;line-height:1.7">
+    Every win logged here — tech, art, school, health, life. This is your evidence file. Future employers see momentum, not just credentials.
+  </p>
+  <div class="wins-container">
+    <div class="wins-title">⚡ Log a Win</div>
+    <div class="win-form">
+      <input type="text" id="winInput" placeholder="What did you accomplish this week?" maxlength="200">
+      <select id="winTag">
+        <option value="tech">Tech</option>
+        <option value="art">Art/Design</option>
+        <option value="school">School</option>
+        <option value="health">Health</option>
+        <option value="life">Life</option>
+      </select>
+      <button onclick="addWin()">+ Log Win</button>
+    </div>
+    <div id="winsList"></div>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<div class="divider"></div>
+<section id="destinations">
+  <p class="section-label">Eldritch Territories — The Hunt</p>
+  <h2 class="section-title">Eligible Destinations 🌊</h2>
+  <div class="info-box">
+    <strong>Selection criteria:</strong> Free or heavily subsidized healthcare · Dialysis fully covered for legal residents · Progressive taxation · Strong social safety net · LGBTQ+ rights protected · Clean water infrastructure · Welcoming to skilled immigrants. <strong>Excluded:</strong> England/Wales, Australia (dialysis access issues for migrants), countries with anti-LGBTQ+ legislation, poor water quality.
+  </div>
+
+  <div class="country-tabs">
+    <button class="ctab active" onclick="showCTab('international')">🌍 International</button>
+    <button class="ctab" onclick="showCTab('us-states')">🇺🇸 US States</button>
+    <button class="ctab" onclick="showCTab('jobs')">💼 Jobs by Region</button>
+  </div>
+
+  <!-- INTERNATIONAL -->
+  <div class="country-panel active" id="panel-international">
+    <div class="country-grid">
+
+      <div class="country-card top">
+        <div class="country-head">
+          <span class="country-flag">🇩🇪</span>
+          <div class="country-name">Germany</div>
+          <span class="country-verdict v-best">Best dialysis security</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">GKV statutory insurance — mandatory, cannot refuse. Germany has the strongest nephrology infrastructure in Europe. Catheter + graft access fully managed.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Universal GKV ~14.6% of salary, split employer/employee. No coverage caps, no exclusions.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Skilled Worker Visa + EU Blue Card. Degree + job offer. PR in 33–48 months.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Top rate 45% + 5.5% solidarity surcharge. Progressive from €10,909.</div></div>
+          <div class="c-row"><div class="c-label">Min wage</div><div class="c-val">€12.82/hr · Lower COL vs Ireland</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2017. Strong protections.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Some of the cleanest tap water in Europe.</div></div>
+          <div class="c-warn">⚠️ Use GKV not PKV (private). GKV cannot risk-rate. Study German: B1 required for PR.</div>
+          <div class="jobs-tag">Design Tech</div><div class="jobs-tag">Frontend Dev</div><div class="jobs-tag">UX/UI</div><div class="jobs-tag">AWS Cloud</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇮🇪</span>
+          <div class="country-name">Ireland</div>
+          <span class="country-verdict v-good">Easiest entry · English</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">HSE public system covers dialysis for legal residents. Medical Card for chronic conditions — covers catheter maintenance, graft monitoring, full sessions.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">HSE universal. GPs free with Medical Card. Strong nephrology at Beaumont, Tallaght, Cork University Hospitals.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Critical Skills Employment Permit. ICT on the list. No labor market test. Min €40,904/yr. Stamp 4 after 21 months.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Top rate 40% + USC + PRSI. High earners pay ~52% effective rate.</div></div>
+          <div class="c-row"><div class="c-label">Min wage</div><div class="c-val">€14.15/hr (2026) — one of Europe's highest</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2015. Exceptionally welcoming.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Clean. Some rural areas use filters.</div></div>
+          <div class="c-warn">⚠️ Dublin COL is very high. Consider private top-up insurance for shorter wait times.</div>
+          <div class="jobs-tag">Frontend Dev</div><div class="jobs-tag">UX Design</div><div class="jobs-tag">Tech Support</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇳🇱</span>
+          <div class="country-name">Netherlands</div>
+          <span class="country-verdict v-caution">Great but high salary bar</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Mandatory private insurance (~€1,900/yr) cannot exclude pre-existing conditions. Basic package covers all dialysis — catheters, grafts, sessions.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Regulated private system. Government pays zorgtoeslagen (subsidy). No co-pay for dialysis in basic package.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Highly Skilled Migrant. IND-recognized employer required. Min €5,688/mo (30+). High bar.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Top rate 49.5% on income above €73k. High progressive taxation.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ First country to legalize marriage (2001). Globally exemplary.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ World-class water quality. Top 5 globally.</div></div>
+          <div class="jobs-tag">UX/UI</div><div class="jobs-tag">Frontend Dev</div><div class="jobs-tag">Design</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇨🇦</span>
+          <div class="country-name">Canada</div>
+          <span class="country-verdict v-good">Fastest PR path</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Provincial insurance (OHIP/BC MSP etc.) covers dialysis fully for PR holders and most work permits after 3 months. Some provinces waive wait for urgent conditions.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Universal Medicare by province. Dialysis, catheter care, graft monitoring all covered. Coordinate with provincial dialysis programs on arrival.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Express Entry Federal Skilled Worker. STEM draws include web/IT. PR possible 6–12 months post-invite. Lowest bar of all options.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Federal top rate 33% + provincial (Ontario top ~53.5% combined). High earner burden significant.</div></div>
+          <div class="c-row"><div class="c-label">Min wage</div><div class="c-val">C$17.20/hr Ontario · Strong social safety net</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2005. Trans rights enshrined.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Excellent in cities. Some Indigenous communities excluded (advocacy ongoing).</div></div>
+          <div class="c-warn">⚠️ 3-month health coverage wait in Ontario. Some provinces waive for urgent/chronic conditions — verify before arrival.</div>
+          <div class="jobs-tag">Frontend Dev</div><div class="jobs-tag">AWS</div><div class="jobs-tag">UX Design</div><div class="jobs-tag">Design Tech</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇸🇪</span>
+          <div class="country-name">Sweden</div>
+          <span class="country-verdict v-good">Highest safety net</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Landsting (regional health) covers all dialysis for registered residents — no exclusions, no waiting for chronic conditions including catheter and graft management.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Universally funded. Max annual out-of-pocket cap ~SEK 1,200 (~$115). After that, fully free including dialysis.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Skilled worker visa. Job offer + salary above median. Swedish not required for tech. Permanent residence in 5 years.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Municipal + national tax — effective top rate ~55%. High but comprehensive benefits.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Pioneer of LGBTQ+ rights. Civil unions since 1994, marriage 2009.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Among world's cleanest tap water.</div></div>
+          <div class="c-ok">Strong tech sector in Stockholm, Gothenburg — growing demand for design technologists.</div>
+          <div class="jobs-tag">UX</div><div class="jobs-tag">Frontend</div><div class="jobs-tag">Design Systems</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇳🇴</span>
+          <div class="country-name">Norway</div>
+          <span class="country-verdict v-good">Highest quality of life</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Helseforetak (regional health authorities) cover dialysis fully. No pre-existing exclusions. Strong nephrology network at Oslo University Hospital.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">National Insurance Scheme. Dialysis covered at no cost. Max co-pay ~NOK 2,921/yr across all services then free.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Skilled Worker Permit. Job offer required. EEA employers preferred but non-EEA accepted. PR after 3 years.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Top marginal rate ~47.4%. Progressive. Wealth tax at 1.1% on assets above NOK 1.7M.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Civil partnerships 1993, marriage 2009. Globally ranked top 5.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Pristine glacial water. One of world's best.</div></div>
+          <div class="c-ok">High wages. Oslo tech scene growing. English widely used in tech companies.</div>
+          <div class="jobs-tag">Design</div><div class="jobs-tag">Frontend</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇫🇮</span>
+          <div class="country-name">Finland</div>
+          <span class="country-verdict v-good">Top safety net</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">HUS (Helsinki and Uusimaa Hospital District) covers all forms of dialysis. Catheter and graft access both managed under universal care.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Kela (Social Insurance) + municipal services. Dialysis fully covered. Max annual cap on fees then zero cost.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Residence permit for employed persons. Job offer needed. English increasingly accepted in tech. PR after 4 years.</div></div>
+          <div class="c-row"><div class="c-label">Tax (rich)</div><div class="c-val">Top marginal ~56%. High but inclusive — world's highest-ranked happiness for reason.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2023. Full legal protections.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Exceptionally pure. Ranked among world's top 5.</div></div>
+          <div class="jobs-tag">Design</div><div class="jobs-tag">UX</div><div class="jobs-tag">Frontend</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+          <div class="country-name">Scotland</div>
+          <span class="country-verdict v-good">NHS Scotland · Distinct policy</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">NHS Scotland covers all dialysis for legal residents — includes home dialysis options, catheter care, graft monitoring. Separate from England's NHS — more inclusive access policies.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Free at point of use. Prescription charges abolished in Scotland (unlike England). Strong renal units at Edinburgh Royal Infirmary, Glasgow Queen Elizabeth.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">UK Skilled Worker Visa (applies UK-wide). Minimum salary threshold applies. Scotland actively recruits tech workers.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Scottish Parliament sets income tax rates — slightly higher top rates than rUK. Progressive structure.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality. Scotland notably more progressive than England on trans rights.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Excellent. Loch reservoir water quality world-class.</div></div>
+          <div class="c-ok">Edinburgh tech scene is growing. Scottish Government promotes tech immigration.</div>
+          <div class="jobs-tag">Frontend</div><div class="jobs-tag">Design</div><div class="jobs-tag">UX</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇳🇿</span>
+          <div class="country-name">New Zealand</div>
+          <span class="country-verdict v-caution">Dialysis bar is key</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Funded Dialysis Programme (Pharmac + DHBs) covers dialysis for residents including work visa holders in many cases. Home dialysis widely available. Graft and catheter both supported.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">ACC covers accident injuries free. Public health mostly free for residents. Dialysis specifically is publicly funded — confirm with Kidney Health NZ before visa decision.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Skilled Migrant Category or Accredited Employer Work Visa. Job offer required. Points-based. PR in 2–5 years.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Top rate 39% on income above NZ$180k. Progressive. No GST-exempt limit on essentials.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2013. Strong community and legal protections.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Generally excellent. Urban tap water high quality. Some rural variations.</div></div>
+          <div class="c-warn">⚠️ Historically NZ has denied some dialysis patients immigration visas — this has been challenged and is evolving. Contact Kidney Health NZ (kidneys.org.nz) for current policy before committing.</div>
+          <div class="jobs-tag">UX</div><div class="jobs-tag">Design</div><div class="jobs-tag">Frontend</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇵🇹</span>
+          <div class="country-name">Portugal</div>
+          <span class="country-verdict v-good">Growing tech hub</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">SNS (Serviço Nacional de Saúde) covers dialysis fully for legal residents. Portugal has 24+ dialysis centers. No pre-existing exclusions for legal residents.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Universal SNS access for residents. Some private top-up for speed but dialysis is state-covered.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Tech Visa specifically for non-EU tech workers and startups. D8 Digital Nomad Visa also available. Growing pathway options.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Top rate 48% on income above €78k. NHR (Non-Habitual Resident) scheme offers tax benefits for first 10 years.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2010. Adoption rights. Constitutional protections.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Good urban water quality. Lisbon, Porto excellent.</div></div>
+          <div class="c-ok">Lisbon is one of Europe's fastest-growing tech hubs. Lower COL than Germany or Ireland.</div>
+          <div class="jobs-tag">Design</div><div class="jobs-tag">Remote-friendly</div><div class="jobs-tag">Frontend</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇧🇪</span>
+          <div class="country-name">Belgium</div>
+          <span class="country-verdict v-good">Central EU access</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">RIZIV/INAMI (national health insurance) covers all dialysis including peritoneal and home dialysis. Cannot be refused for pre-existing conditions once enrolled.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Compulsory national health insurance ~8% of salary. Dialysis reimbursed at 80-100% depending on status. High-quality nephrology centers especially in Brussels and Leuven.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Single Permit for skilled workers. EU Blue Card also applicable. Belgium has English-language tech environment, especially Brussels.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">One of EU's highest — top rate 50% plus municipal. Very high earner burden. Strong redistribution.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2003. Strong anti-discrimination law.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Good quality urban. Brussels drinking water of high standard.</div></div>
+          <div class="jobs-tag">UX</div><div class="jobs-tag">Design</div><div class="jobs-tag">Frontend</div><div class="jobs-tag">EU Institutions</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head">
+          <span class="country-flag">🇩🇰</span>
+          <div class="country-name">Denmark</div>
+          <span class="country-verdict v-good">World's best work-life balance</span>
+        </div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Sundhedsvæsen (public health system) covers all dialysis — hemodialysis, peritoneal, home. Strong renal units at Rigshospitalet and Aarhus.</div></div>
+          <div class="c-row"><div class="c-label">Healthcare</div><div class="c-val">Fully tax-funded. Free at point of use including dialysis. CPR number (civil registration) must be obtained first to access services.</div></div>
+          <div class="c-row"><div class="c-label">Visa</div><div class="c-val">Pay Limit Scheme (fast-track if salary >DKK 465k/yr) or Positive List scheme (design technologists, web developers listed).</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Effective top rates ~55.9%. High but delivers among the world's best public services.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Civil unions 1989, marriage 2012. Rainbow families protected.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ World-class. Danish groundwater consistently among global top tier.</div></div>
+          <div class="jobs-tag">UX</div><div class="jobs-tag">Design</div><div class="jobs-tag">Frontend</div>
+        </div>
+      </div>
+
+    </div><!-- /country-grid -->
+    <div class="success-box">
+      <strong>Recommended entry sequence:</strong> Ireland or Canada (English, fastest) → build experience 2–3 years → relocate to Germany, Sweden, or Netherlands for best long-term dialysis security and career ceiling. All countries listed cannot legally deny dialysis once you are enrolled as a legal resident.
+    </div>
+  </div><!-- /panel-international -->
+
+  <!-- US STATES -->
+  <div class="country-panel" id="panel-us-states">
+    <div class="info-box">
+      <strong>US State criteria:</strong> Medicaid covers dialysis (all states legally must) · State LGBTQ+ protections in law · Strong local safety net · Clean water infrastructure · Progressive state income tax structure (or strong redistribution). The US Medicare ESRD program covers dialysis for US citizens regardless of state — but local law, culture, and safety net quality vary hugely.
+    </div>
+    <div class="country-grid">
+
+      <div class="country-card top">
+        <div class="country-head"><span class="country-flag">🌲</span><div class="country-name">Oregon</div><span class="country-verdict v-best">Strongest protections</span></div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Medicare ESRD + Oregon Health Plan (Medicaid expansion) covers dialysis without gaps. Oregon Health Authority has strong ESRD support programs.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Constitutional ban on discrimination. One of the strongest legal frameworks in US.</div></div>
+          <div class="c-row"><div class="c-label">Safety net</div><div class="c-val">Oregon Health Plan among most expansive Medicaid programs in US. Housing assistance, SNAP, robust social services.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Top state rate 9.9% on income above $125k. No sales tax.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Portland's Bull Run water system consistently #1 in US taste and quality.</div></div>
+          <div class="jobs-tag">Portland Tech</div><div class="jobs-tag">Remote-friendly</div><div class="jobs-tag">Design</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head"><span class="country-flag">🌿</span><div class="country-name">Vermont</div><span class="country-verdict v-best">Most progressive state</span></div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Vermont Medicaid (Green Mountain Care) most expansive Medicaid in US. ESRD dialysis covered. Significant state investment in chronic condition management.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ First state to legislate civil unions (2000), marriage 2009. Strong protections.</div></div>
+          <div class="c-row"><div class="c-label">Safety net</div><div class="c-val">Vermont has the most comprehensive Medicaid per capita. Housing, food, mental health well-funded.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Top rate 8.75%. Progressive structure.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Excellent. Rural groundwater and reservoir systems very clean.</div></div>
+          <div class="c-warn">⚠️ Small job market — strong for remote work or Burlington-area roles.</div>
+          <div class="jobs-tag">Remote</div><div class="jobs-tag">Design</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head"><span class="country-flag">🌊</span><div class="country-name">Washington State</div><span class="country-verdict v-good">No income tax + tech hub</span></div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Apple Health (Medicaid) covers dialysis. Strong ESRD program through DSHS. Seattle has multiple DaVita and Fresenius dialysis centers.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2012 (by referendum). Anti-discrimination protections in housing, employment.</div></div>
+          <div class="c-row"><div class="c-label">Safety net</div><div class="c-val">Strong SNAP, Medicaid, housing voucher programs. Apple Health is highly rated.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">No state income tax — but WA funds services via business taxes. Capital gains tax at 7% on gains >$250k.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Seattle municipal water from Cedar River watershed — excellent.</div></div>
+          <div class="c-ok">Seattle is a major design/tech hub. Amazon, Microsoft, Google, Boeing all headquartered or major presence.</div>
+          <div class="jobs-tag">Seattle Tech</div><div class="jobs-tag">Design Systems</div><div class="jobs-tag">UX</div><div class="jobs-tag">AWS</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head"><span class="country-flag">🌞</span><div class="country-name">Minnesota</div><span class="country-verdict v-good">Strong safety net · Midwest</span></div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">Medical Assistance (Medicaid) covers dialysis. Minnesota has exceptional renal care programs including Mayo Clinic's world-class nephrology in Rochester.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2013 (by legislature). Comprehensive anti-discrimination law.</div></div>
+          <div class="c-row"><div class="c-label">Safety net</div><div class="c-val">One of the most robust Medicaid programs in the Midwest. Housing and social services well-funded by legislature.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Top rate 9.85% — one of highest in US. Very progressive structure. Strong redistribution.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Minneapolis water regularly wins best-tasting US city water awards.</div></div>
+          <div class="c-ok">Twin Cities have a solid design and healthcare IT job market. Lower COL than Seattle or NYC.</div>
+          <div class="jobs-tag">Healthcare IT</div><div class="jobs-tag">Design</div><div class="jobs-tag">UX</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head"><span class="country-flag">🗽</span><div class="country-name">New York State</div><span class="country-verdict v-good">Largest US creative market</span></div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">NY Medicaid among the most generous in US — covers dialysis extensively. NYC has 100+ dialysis centers. ESRD Network 2 (NY area) is one of the best-resourced in the country.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2011. NYC Human Rights Law among strongest protections in US.</div></div>
+          <div class="c-row"><div class="c-label">Safety net</div><div class="c-val">NY Medicaid, SNAP, housing vouchers, multiple city-level social programs. NYC especially has extensive support systems.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">State top rate 10.9% + NYC city tax up to 3.876%. High earner burden — strong redistribution.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ NYC water from Catskill/Delaware watershed — consistently ranked among best tap water in US.</div></div>
+          <div class="c-warn">⚠️ Very high COL especially NYC. Outside the city is more affordable.</div>
+          <div class="jobs-tag">Creative Director</div><div class="jobs-tag">Design Tech</div><div class="jobs-tag">UX Lead</div>
+        </div>
+      </div>
+
+      <div class="country-card">
+        <div class="country-head"><span class="country-flag">🌴</span><div class="country-name">Hawaiʻi</div><span class="country-verdict v-good">Universal healthcare · Unique</span></div>
+        <div class="country-body">
+          <div class="c-row"><div class="c-label">Dialysis</div><div class="c-val">QUEST Integration (Medicaid) covers dialysis. Hawaii has the Prepaid Health Care Act — employer-provided health insurance is mandatory, the only state with this law.</div></div>
+          <div class="c-row"><div class="c-label">LGBTQ+</div><div class="c-val">✅ Marriage equality 2013. Strong aloha culture — welcoming and accepting.</div></div>
+          <div class="c-row"><div class="c-label">Safety net</div><div class="c-val">Mandatory employer health insurance. Low uninsured rate. Medicaid coverage among broadest per capita.</div></div>
+          <div class="c-row"><div class="c-label">Tax</div><div class="c-val">Top rate 11% — highest in US. Very progressive. Robust redistribution.</div></div>
+          <div class="c-row"><div class="c-label">Water</div><div class="c-val">✅ Volcanic aquifer water — very clean. Oahu and Maui water excellent.</div></div>
+          <div class="c-warn">⚠️ Very high COL. Remote market — better for remote tech work than in-person job hunting.</div>
+          <div class="jobs-tag">Remote</div><div class="jobs-tag">Design</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /panel-us-states -->
+
+  <!-- JOBS BY REGION -->
+  <div class="country-panel" id="panel-jobs">
+    <div class="info-box">
+      <strong>Job market data:</strong> Real-world role availability for DJ's skill profile (design technologist, frontend dev, UX/UI designer, AWS-certified, graphic design background). Demand indicators reflect 2025–26 posting trends. Data updates periodically — use LinkedIn, Indeed, Glassdoor local for real-time postings.
+    </div>
+    <div class="last-updated">📡 Demand indicators reflect May 2026 market signals. Search LinkedIn/Indeed locally for live postings.</div>
+    <br>
+    <div class="jobs-grid">
+      <div class="job-card"><div class="job-region">🇩🇪 Germany — Berlin/Munich</div><div class="job-title">Design Technologist</div><div class="job-salary">€55–75k/yr</div><div class="job-note">High demand in startup + agency ecosystem. AWS cert differentiates strongly.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇩🇪 Germany — Berlin/Munich</div><div class="job-title">UX/UI Designer (Frontend-skilled)</div><div class="job-salary">€50–68k/yr</div><div class="job-note">Companies explicitly seeking designer-developers. React portfolio opens doors.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇮🇪 Ireland — Dublin</div><div class="job-title">Front-End Developer</div><div class="job-salary">€50–70k/yr</div><div class="job-note">CSEP-eligible. Big tech presence (Google, Meta, LinkedIn EU HQ). English — zero friction.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇮🇪 Ireland — Dublin</div><div class="job-title">UX Designer</div><div class="job-salary">€45–65k/yr</div><div class="job-note">Strong demand. Design + dev combo valued at agency and product companies alike.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇨🇦 Canada — Toronto/Vancouver</div><div class="job-title">Web Designer / Dev</div><div class="job-salary">C$65–90k/yr</div><div class="job-note">Express Entry eligible. Growing design scene. AWS roles abundant in Toronto tech.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇨🇦 Canada — Toronto/Vancouver</div><div class="job-title">Creative Director</div><div class="job-salary">C$90–130k/yr</div><div class="job-note">BA + 10yr experience track. Target 3–5 years post-arrival for this level.</div><div class="job-demand jd-grow">Growing</div></div>
+      <div class="job-card"><div class="job-region">🇸🇪 Sweden — Stockholm</div><div class="job-title">UX Designer</div><div class="job-salary">SEK 550–750k/yr</div><div class="job-note">Spotify, IKEA, Klarna all based here. Design culture strong. English sufficient in tech sector.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇵🇹 Portugal — Lisbon/Porto</div><div class="job-title">Frontend Developer</div><div class="job-salary">€30–48k/yr</div><div class="job-note">Lower salary but much lower COL. Fast-growing tech hub. Strong English tech scene.</div><div class="job-demand jd-grow">Growing fast</div></div>
+      <div class="job-card"><div class="job-region">🇳🇱 Netherlands — Amsterdam</div><div class="job-title">Design Technologist</div><div class="job-salary">€60–80k/yr</div><div class="job-note">Stripe, Booking.com, TomTom based here. High bar but very high ceiling.</div><div class="job-demand jd-med">Medium (high bar)</div></div>
+      <div class="job-card"><div class="job-region">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland — Edinburgh</div><div class="job-title">UI/UX Designer</div><div class="job-salary">£38–52k/yr</div><div class="job-note">Growing fintech and healthtech scene. NHS digital transformation creating demand.</div><div class="job-demand jd-grow">Growing</div></div>
+      <div class="job-card"><div class="job-region">🇺🇸 US — Seattle/WA</div><div class="job-title">UX Designer (Amazon/Microsoft)</div><div class="job-salary">$90–140k/yr</div><div class="job-note">Amazon HQ2 + Microsoft both massive design employers. AWS background major advantage.</div><div class="job-demand jd-high">High demand</div></div>
+      <div class="job-card"><div class="job-region">🇺🇸 US — NYC</div><div class="job-title">Creative Director</div><div class="job-salary">$110–180k/yr</div><div class="job-note">Largest creative job market in the US. High COL offset by high salary ceiling.</div><div class="job-demand jd-high">Very high demand</div></div>
+    </div>
+  </div><!-- /panel-jobs -->
+</section>
+
+<!-- HEALTH / DIALYSIS -->
+<div class="divider"></div>
+<section id="health">
+  <p class="section-label">Medical Passport</p>
+  <h2 class="section-title">Dialysis Continuity Plan 🏥</h2>
+  <div class="alert">
+    <strong>Critical access profile:</strong> DJ has three distinct access points that require careful documentation and coordination with each receiving dialysis center abroad. Each must be disclosed and confirmed before departure.
+  </div>
+  <div class="dialysis-grid">
+    <div class="dialysis-card active-access">
+      <div class="dialysis-icon">🔗</div>
+      <div class="dialysis-title">Left Groin Catheter</div>
+      <div class="dialysis-desc">Current primary access point. Tunneled femoral catheter for hemodialysis. Must document: placement date, catheter type and brand, dressing protocol, flow rates achieved, any history of dysfunction or infection. International centers need this to plan your chair placement and nursing care protocol.</div>
+      <div class="dialysis-badge db-active">Current Active Access</div>
+    </div>
+    <div class="dialysis-card nonfunc">
+      <div class="dialysis-icon">⚠️</div>
+      <div class="dialysis-title">Right Arm Fistula (Non-functional)</div>
+      <div class="dialysis-desc">AVF created but not achieving functional maturation or thrombosed. Document: creation date, original vessel used, reason for non-function (thrombosis, poor flow, failed maturation), any interventions attempted. Receiving nephrologists need this history to assess future access options and avoid redundant procedures.</div>
+      <div class="dialysis-badge db-nonfunc">Non-functional — Documented</div>
+    </div>
+    <div class="dialysis-card complex">
+      <div class="dialysis-icon">🫀</div>
+      <div class="dialysis-title">Chest HERO Graft</div>
+      <div class="dialysis-desc">HeRO (Hemodialysis Reliable Outflow) Graft — catheter-free venous outflow device placed in chest. Document: implant date, outflow vessel used, graft segment location, any revisions, current flow characteristics. This is specialized access — confirm receiving center has experience managing HERO grafts. Not all international centers have seen them. Contact ahead.</div>
+      <div class="dialysis-badge db-hero">HERO Graft — Specialized Access</div>
+    </div>
+    <div class="dialysis-card">
+      <div class="dialysis-icon">📋</div>
+      <div class="dialysis-title">Complex Access History</div>
+      <div class="dialysis-desc">Three access points = complex vascular access history. This must be front and center in your medical passport. Your US nephrologist letter must explicitly state all three access sites, their current status, and your standard dialysis parameters (Kt/V target, blood flow rate, session duration, frequency).</div>
+      <div class="dialysis-badge db-complex">Multi-Site Access History</div>
+    </div>
+  </div>
+  <div class="info-box">
+    <strong>Action checklist:</strong> (1) Ask US nephrologist for access-specific letter covering all three sites · (2) Get current imaging (doppler/ultrasound) of right arm fistula and HERO graft — take copies · (3) Contact receiving clinics abroad specifically asking if they manage HERO grafts · (4) Bring physical copies of all access documentation in carry-on · (5) Research target country's interventional nephrology capability before finalizing destination.
+  </div>
+</section>
+
+<!-- SAVING PHASE -->
+<div class="divider"></div>
+<section id="saving">
+  <p class="section-label">The Move Budget</p>
+  <h2 class="section-title">Saving Phase — US to World 💰</h2>
+  <div class="info-box">
+    <strong>The move has three financial phases:</strong> Save in the US → Execute the move → Settle and stabilize. Each phase has costs, timelines, and tax implications that need planning. Use the calculator below to model your personal scenario.
+  </div>
+
+  <div class="saving-calc">
+    <h3>💡 Relocation Calculator</h3>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Current Monthly Net Income (USD)</label><input type="number" id="calcIncome" value="3200" oninput="calcSaving()"></div>
+      <div class="calc-field"><label>Monthly Expenses (USD)</label><input type="number" id="calcExpenses" value="2100" oninput="calcSaving()"></div>
+      <div class="calc-field"><label>Target Country</label>
+        <select id="calcCountry" onchange="calcSaving()">
+          <option value="de">Germany</option>
+          <option value="ie">Ireland</option>
+          <option value="nl">Netherlands</option>
+          <option value="ca">Canada</option>
+          <option value="se">Sweden</option>
+          <option value="pt">Portugal</option>
+          <option value="no">Norway</option>
+          <option value="dk">Denmark</option>
+        </select>
+      </div>
+      <div class="calc-field"><label>Target Move Date</label><input type="month" id="calcDate" value="2027-10" oninput="calcSaving()"></div>
+    </div>
+    <div class="calc-results" id="calcResults"></div>
+    <div class="timeline-bar" id="calcTimeline" style="margin-top:1.2rem"></div>
+  </div>
+
+  <!-- Cost breakdown by destination -->
+  <div class="country-grid" style="margin-bottom:1.5rem">
+    <div class="country-card">
+      <div class="country-head"><span class="country-flag">💸</span><div class="country-name">Move Costs (All Destinations)</div></div>
+      <div class="country-body">
+        <div class="c-row"><div class="c-label">Flights</div><div class="c-val">$800–$2,500 Detroit → Europe/Canada. Book 3 months ahead. Fly one-way when visa confirmed.</div></div>
+        <div class="c-row"><div class="c-label">Shipping</div><div class="c-val">$1,500–$4,500 for air freight of essentials. Sea shipping (3–8 weeks) for full household if needed: $3,000–$8,000.</div></div>
+        <div class="c-row"><div class="c-label">First month rent + deposit</div><div class="c-val">Expect 2–3 months rent upfront. Dublin: €3,500–5,000. Berlin: €2,500–4,000. Toronto: C$3,500–5,500. Lisbon: €1,800–3,000.</div></div>
+        <div class="c-row"><div class="c-label">Bridge insurance (US)</div><div class="c-val">~$300–600/mo short-term health insurance to cover dialysis during transition. CRITICAL — do not go uninsured for even one missed session.</div></div>
+        <div class="c-row"><div class="c-label">Visa application fees</div><div class="c-val">Ireland CSEP: €1,000 · Germany: €100 (visa) + ~€200 (translations) · Canada Express Entry: C$1,365 · Netherlands: ~€350</div></div>
+        <div class="c-row"><div class="c-label">Document prep</div><div class="c-val">Apostilles, certified translations, credential evaluations: budget $500–1,500</div></div>
+        <div class="c-row"><div class="c-label">Emergency reserve</div><div class="c-val">Non-negotiable: 3 months of target-country expenses in savings before departure. €6,000–10,000 minimum.</div></div>
+      </div>
+    </div>
+    <div class="country-card">
+      <div class="country-head"><span class="country-flag">🏦</span><div class="country-name">Tax Implications — US Expat</div></div>
+      <div class="country-body">
+        <div class="c-row"><div class="c-label">FBAR / FATCA</div><div class="c-val">US citizens abroad must file annual FBAR (FinCEN 114) if foreign accounts exceed $10,000. FATCA requires reporting foreign financial assets.</div></div>
+        <div class="c-row"><div class="c-label">Foreign Earned Income Exclusion</div><div class="c-val">FEIE (Form 2555) lets you exclude up to $126,500 (2024) of foreign earned income from US taxes. Bona fide residence or physical presence test required.</div></div>
+        <div class="c-row"><div class="c-label">State taxes</div><div class="c-val">Michigan: file a Michigan tax return for your last year. Sever Michigan residency cleanly — update voter registration, driver's license, bank address.</div></div>
+        <div class="c-row"><div class="c-label">Social Security</div><div class="c-val">US-Germany, US-Canada, US-Netherlands have totalization agreements — avoid double Social Security taxation. Ireland does not have one — check current status.</div></div>
+        <div class="c-row"><div class="c-label">Tax treaties</div><div class="c-val">US has tax treaties with Germany, Canada, Netherlands, Ireland, Sweden, Norway, Denmark, Finland, Belgium, Portugal. These prevent double taxation on income.</div></div>
+        <div class="c-row"><div class="c-label">Pro tip</div><div class="c-val">Hire an expat-specialist CPA for your first year abroad. Cost: $300–600. Saves far more in mistakes. Search: expatriate tax specialist.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Recommended savings target before departure:</strong> €15,000–20,000 (or currency equivalent) in liquid savings. This covers: move costs, 3-month emergency reserve, healthcare bridge, first housing deposit, visa fees, and buffer for setup costs. Start saving aggressively from Month 1 of the roadmap.
+  </div>
+</section>
+
+<!-- SKILLS -->
+<div class="divider"></div>
+<section id="skills">
+  <p class="section-label">Skill Tree</p>
+  <h2 class="section-title">Skill Stack — The Arsenal 🛠️</h2>
+  <div class="skills-grid" id="skillsGrid">
+    <div class="skill-card unlocked" onclick="toggleSkill(this,'graphic-design')" data-id="graphic-design">
+      <div class="skill-icon">🎨</div>
+      <div class="skill-name">Graphic Design</div>
+      <div class="skill-desc">10+ years. SkullDAWG Productions, The Mirror. This is the foundation — lean into it hard.</div>
+      <span class="skill-tag st-now">Have it now</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" style="width:95%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'html-css')" data-id="html-css">
+      <div class="skill-icon">💻</div>
+      <div class="skill-name">HTML5 + CSS3</div>
+      <div class="skill-desc">Flexbox, Grid, responsive design, animations. Phase 1 focus.</div>
+      <span class="skill-tag st-now">Building now</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-html-css" style="width:0%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'javascript')" data-id="javascript">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-name">JavaScript ES6+</div>
+      <div class="skill-desc">DOM, events, async, arrays. Real projects from week 5.</div>
+      <span class="skill-tag st-now">Building now</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-javascript" style="width:0%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'aws')" data-id="aws">
+      <div class="skill-icon">☁️</div>
+      <div class="skill-name">AWS Cloud Practitioner</div>
+      <div class="skill-desc">Exam target: Month 3 (Aug 2026). Highly valued in EU + Canada postings.</div>
+      <span class="skill-tag st-now">In training</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-aws" style="width:0%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'uxui')" data-id="uxui">
+      <div class="skill-icon">🖌️</div>
+      <div class="skill-name">UX/UI Design</div>
+      <div class="skill-desc">Translating design eye into coded interfaces. Phase 2 focus.</div>
+      <span class="skill-tag st-6m">Phase 2</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-uxui" style="width:0%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'react')" data-id="react">
+      <div class="skill-icon">⚛️</div>
+      <div class="skill-name">React.js</div>
+      <div class="skill-desc">Components, hooks, Router, API calls. Live deployed projects. Phase 3.</div>
+      <span class="skill-tag st-6m">Phase 3</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-react" style="width:0%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'language')" data-id="language">
+      <div class="skill-icon">🌍</div>
+      <div class="skill-name">Target Language</div>
+      <div class="skill-desc">German, Dutch, French, or Swedish — destination dependent. Duolingo daily.</div>
+      <span class="skill-tag st-6m">Ongoing</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-language" style="width:0%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'cyber')" data-id="cyber">
+      <div class="skill-icon">🛡️</div>
+      <div class="skill-name">Cybersecurity</div>
+      <div class="skill-desc">SNHU cert. Combined with AWS = strong IT security angle for EU roles.</div>
+      <span class="skill-tag st-6m">In progress</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-cyber" style="width:60%"></div></div></div>
+    </div>
+    <div class="skill-card" onclick="toggleSkill(this,'ba')" data-id="ba">
+      <div class="skill-icon">🎓</div>
+      <div class="skill-name">BA Graphic Design</div>
+      <div class="skill-desc">Web Design + UX/UI focus. October 2027. Changes visa eligibility everywhere.</div>
+      <span class="skill-tag st-grad">October 2027</span>
+      <div class="skill-progress"><div class="skill-prog-bar"><div class="skill-prog-fill" id="sp-ba" style="width:0%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<div class="divider"></div>
+<section id="roadmap">
+  <p class="section-label">Week-by-week expedition</p>
+  <h2 class="section-title">May 2026 → October 2027 🗺️</h2>
+
+  <div class="phase-tabs">
+    <button class="phase-tab pt0 active" onclick="showPhase(0)">Phase 1<span>Now → Aug 2026 · Foundations</span></button>
+    <button class="phase-tab pt1" onclick="showPhase(1)">Phase 2<span>Sep → Dec 2026 · UX/UI + JS</span></button>
+    <button class="phase-tab pt2" onclick="showPhase(2)">Phase 3<span>Jan → Apr 2027 · React</span></button>
+    <button class="phase-tab pt3" onclick="showPhase(3)">Phase 4<span>May → Aug 2027 · Launch</span></button>
+    <button class="phase-tab pt4" onclick="showPhase(4)">Phase 5<span>Sep → Oct 2027 · Departure</span></button>
+    <button class="phase-tab pt5" onclick="showPhase(5)">Saving Phase<span>Ongoing · Move Budget</span></button>
+  </div>
+
+  <div class="phase-content show" id="phase0">
+    <div class="phase-banner pb0"><h3>Phase 1: Foundations — Now through August 2026</h3>HTML, CSS, JavaScript basics · AWS Cloud Practitioner · Language choice · Medical passport started · Portfolio live</div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">🪸</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: Portfolio Live at Real URL</div><div class="checkpoint-desc">Deploy your portfolio to GitHub Pages or Netlify. Must be accessible at a real URL — not localhost.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('portfolio_live',this)">Mark Complete ✓</button></div></div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">☁️</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: AWS Cloud Practitioner Passed</div><div class="checkpoint-desc">Schedule and pass the AWS Cloud Practitioner exam. Add to LinkedIn immediately.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('aws_cp',this)">Mark Complete ✓</button></div></div>
+    <div class="week-list" id="weeks0"></div>
+  </div>
+
+  <div class="phase-content" id="phase1">
+    <div class="phase-banner pb1"><h3>Phase 2: Building — September through December 2026</h3>CSS Grid + Flexbox · UX/UI integration · Interactive JS · Portfolio v2 · AWS certified · Visa research deepens</div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">🗂️</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: Medical Passport + Dialysis Transition Kit Complete</div><div class="checkpoint-desc">All three access points documented. Nephrologist letter drafted covering groin catheter, HERO graft, non-functional right arm fistula.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('medical_passport',this)">Mark Complete ✓</button></div></div>
+    <div class="week-list" id="weeks1"></div>
+  </div>
+
+  <div class="phase-content" id="phase2">
+    <div class="phase-banner pb2"><h3>Phase 3: React + Immigration Prep — January through April 2027</h3>React fundamentals · First international job applications sent · Visa documents compiled · Dialysis clinic contacts abroad</div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">✉️</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: 10 International Applications Sent</div><div class="checkpoint-desc">Track in a spreadsheet: company, role, country, date, follow-up date, status. Quality over speed.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('first_app',this)">Mark Complete ✓</button></div></div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">⚛️</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: React Project Live</div><div class="checkpoint-desc">Full React app with routing deployed on Netlify/Vercel. Your strongest technical portfolio piece.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('react_live',this)">Mark Complete ✓</button></div></div>
+    <div class="week-list" id="weeks2"></div>
+  </div>
+
+  <div class="phase-content" id="phase3">
+    <div class="phase-banner pb3"><h3>Phase 4: Launch Ready — May through August 2027</h3>Active international job search · React portfolio complete · Visa process started · Dialysis continuity locked</div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">📜</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: Visa Documents Compiled</div><div class="checkpoint-desc">Full packet: transcripts, CV, cover letters, translations, apostilles. Ready to submit the moment an offer arrives.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('visa_docs',this)">Mark Complete ✓</button></div></div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">🔱</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: Job Offer Received</div><div class="checkpoint-desc">The big one. An international job offer in hand. Begin visa application IMMEDIATELY.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('offer_received',this)">Mark Complete ✓</button></div></div>
+    <div class="week-list" id="weeks3"></div>
+  </div>
+
+  <div class="phase-content" id="phase4">
+    <div class="phase-banner pb4"><h3>Phase 5: Graduation — September through October 2027</h3>Degree conferred · Visa approved · Dialysis arranged abroad · Move executed · Equipment Tech → Creative Director</div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">🏥</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: Dialysis Confirmed at Destination Clinic</div><div class="checkpoint-desc">First appointment booked. HERO graft capability confirmed at receiving center. Coverage start date from insurer in writing.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('dialysis_abroad',this)">Mark Complete ✓</button></div></div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">🎓</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: BA Conferred — October 2027</div><div class="checkpoint-desc">BA Graphic Design (Web Design + UX/UI) conferred by Henry Ford College. Update everything. You did it.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('degree_conferred',this)">Mark Complete ✓</button></div></div>
+    <div class="checkpoint-bar"><div class="checkpoint-icon">🌊</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: DEPARTED — Detroit → World</div><div class="checkpoint-desc">You boarded the plane. The plan worked. Equipment Tech → Creative Director → Global.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" onclick="earnAward('departed',this)">Mark Complete ✓</button></div></div>
+    <div class="week-list" id="weeks4"></div>
+  </div>
+
+  <div class="phase-content" id="phase5">
+    <div class="phase-banner pb5"><h3>Saving Phase: Ongoing — Financial Preparation</h3>Build the move fund · Track monthly surplus · Reach the $15,000–20,000 launch target · Understand expat tax obligations</div>
+    <div class="saving-calc" style="margin-bottom:1rem">
+      <h3>📊 Monthly Surplus Tracker</h3>
+      <div class="calc-grid">
+        <div class="calc-field"><label>Monthly Take-Home (USD)</label><input type="number" id="surplusIncome" value="3200" oninput="trackSurplus()"></div>
+        <div class="calc-field"><label>Monthly Fixed Expenses (USD)</label><input type="number" id="surplusExpenses" value="2100" oninput="trackSurplus()"></div>
+        <div class="calc-field"><label>Current Savings (USD)</label><input type="number" id="currentSavings" value="500" oninput="trackSurplus()"></div>
+        <div class="calc-field"><label>Target Fund (USD)</label><input type="number" id="targetFund" value="18000" oninput="trackSurplus()"></div>
+      </div>
+      <div class="calc-results" id="surplusResults"></div>
+    </div>
+    <div class="week-list">
+      <div class="week-card"><div class="week-header" onclick="toggleWeek(this)"><span class="week-num wn5">Month 1–3</span><span class="week-title">Build the emergency base fund</span><span class="week-arrow">▾</span></div><div class="week-body"><div class="week-section"><div class="week-section-label">Financial priorities</div><div class="week-task">Open a high-yield savings account (Ally, Marcus, SoFi) separate from checking — keeps the move fund mentally ring-fenced and earning interest</div><div class="week-task">Target $500–$1,000/month into the move fund depending on your budget. Automate transfers the day you get paid.</div><div class="week-task">Cancel every non-essential subscription. This fund is more important than streaming services for the next 17 months.</div><div class="week-task">Contact any outstanding debt — negotiate payment plans if needed. Leaving the US with debt is possible but complicated. Clean it up now if you can.</div></div></div></div>
+      <div class="week-card"><div class="week-header" onclick="toggleWeek(this)"><span class="week-num wn5">Month 4–8</span><span class="week-title">Mid-journey — $5,000 milestone target</span><span class="week-arrow">▾</span></div><div class="week-body"><div class="week-section"><div class="week-section-label">Financial priorities</div><div class="week-task">By month 6, have $3,000–5,000 saved. This is your first checkpoint.</div><div class="week-task">Research bridge health insurance options for the transition period — compare ACA Marketplace, short-term plans, and COBRA options for the 30–90 day gap period.</div><div class="week-task">Begin researching forex transfer services: Wise, OFX, Revolut. When you move money to your new country, fees and rates matter — can be 2–5% cheaper than a bank wire.</div><div class="week-task">File US taxes on time. If you have a tax refund coming, direct it entirely into the move fund.</div></div></div></div>
+      <div class="week-card"><div class="week-header" onclick="toggleWeek(this)"><span class="week-num wn5">Month 9–14</span><span class="week-title">Final push — $15,000+ target</span><span class="week-arrow">▾</span></div><div class="week-body"><div class="week-section"><div class="week-section-label">Financial priorities</div><div class="week-task">Intensify savings: if a job offer comes before you've hit the goal, consult whether the offer's signing bonus or relocation package covers the gap.</div><div class="week-task">Finalize bank plan: open a Wise or Revolut account now — these work internationally and make international salary receipt and bill payment dramatically easier on arrival.</div><div class="week-task">Inventory possessions: sell, ship, or donate? Selling major items before departure reduces shipping costs. Facebook Marketplace, Craigslist.</div><div class="week-task">Hire expat tax CPA: start searching now so they're onboarded before your final US tax year overlaps with your first foreign year.</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<div class="divider"></div>
+<section id="portfolio">
+  <p class="section-label">Evidence Vault</p>
+  <h2 class="section-title">Portfolio + Video Reel 🎬</h2>
+
+  <div class="video-reel">
+    <h4>🎬 Running Video Reel — Add Clips</h4>
+    <div id="videoList"></div>
+    <div class="add-form" style="margin-top:.75rem">
+      <div class="add-form-title">Add to Reel</div>
+      <div class="add-form-row">
+        <input type="text" id="videoTitle" placeholder="Clip title (e.g. Portfolio Walkthrough, Process Video)">
+        <input type="url" id="videoUrl" placeholder="YouTube / Vimeo URL or file name">
+      </div>
+      <div class="add-form-row">
+        <input type="text" id="videoDesc" placeholder="Description">
+        <button class="btn-add" onclick="addVideo()">+ Add to Reel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="projects-grid" id="projectsDisplay"></div>
+  <div style="font-size:12px;color:rgba(200,216,232,.3);margin-bottom:1rem">Projects are added in the Projects section below ↓</div>
+</section>
+
+<!-- MENTORS -->
+<div class="divider"></div>
+<section id="mentors">
+  <p class="section-label">Navigation Council</p>
+  <h2 class="section-title">Mentors — The Council 🧭</h2>
+  <p style="font-size:13px;color:rgba(200,216,232,.4);margin-bottom:1.5rem;line-height:1.7">Track every mentor relationship here. These are the people who open doors. Log who they are, what they're teaching you, and stay accountable to reaching out regularly.</p>
+
+  <div class="checkpoint-bar"><div class="checkpoint-icon">🧭</div><div class="checkpoint-content"><div class="checkpoint-title">Checkpoint: First Mentor Added</div><div class="checkpoint-desc">Log your first mentor relationship — doesn't have to be formal. A professor, a senior designer, a LinkedIn connection who answered your questions.</div></div><div class="checkpoint-status"><button class="btn-checkpoint" id="mentorCheckpoint" onclick="earnAward('mentor_added',this)">Mark Complete ✓</button></div></div>
+
+  <div class="mentors-grid" id="mentorsList"></div>
+  <div class="add-form">
+    <div class="add-form-title">Add a Mentor</div>
+    <div class="add-form-row">
+      <input type="text" id="mentorName" placeholder="Name">
+      <input type="text" id="mentorRole" placeholder="Role / Company">
+      <input type="text" id="mentorEmoji" placeholder="Emoji" maxlength="3" style="max-width:70px">
+    </div>
+    <div class="add-form-row">
+      <textarea id="mentorNote" placeholder="What are they teaching you? How did you connect? How often do you check in?"></textarea>
+    </div>
+    <div class="add-form-row">
+      <button class="btn-add" onclick="addMentor()">+ Add Mentor</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<div class="divider"></div>
+<section id="projects">
+  <p class="section-label">The Build Log</p>
+  <h2 class="section-title">Projects — Living Portfolio 🚀</h2>
+  <p style="font-size:13px;color:rgba(200,216,232,.4);margin-bottom:1.5rem;line-height:1.7">Every project you complete lives here. This is your running evidence of growth — visible to employers, visa officers, and yourself.</p>
+
+  <div class="projects-grid" id="projectsList"></div>
+  <div class="add-form">
+    <div class="add-form-title">Add a Project</div>
+    <div class="add-form-row">
+      <input type="text" id="projName" placeholder="Project name">
+      <select id="projType">
+        <option value="design">Design</option>
+        <option value="dev">Dev / Code</option>
+        <option value="aws">AWS / Cloud</option>
+        <option value="art">Art / Brand</option>
+      </select>
+    </div>
+    <div class="add-form-row">
+      <textarea id="projDesc" placeholder="What did you build? What's the impact? What did you learn?"></textarea>
+    </div>
+    <div class="add-form-row">
+      <input type="text" id="projTags" placeholder="Tags (comma-separated: React, Figma, AWS...)">
+      <input type="url" id="projLive" placeholder="Live URL">
+      <input type="url" id="projGithub" placeholder="GitHub URL">
+    </div>
+    <div class="add-form-row">
+      <input type="text" id="projEmoji" placeholder="Icon emoji" maxlength="3" style="max-width:70px">
+      <button class="btn-add" onclick="addProject()">+ Add Project</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built for <strong>DJ</strong> · Detroit, MI · May 2026<br>
+  <span style="margin-top:4px;display:block">Equipment Tech → Creative Director → World 🌍 · Living Career Grimoire</span>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE MANAGEMENT
+// ═══════════════════════════════════════════════
+const S = {
+  wins: [], mentors: [], projects: [], videos: [],
+  awards: {}, phaseProgress: [0,0,0,0,0,0], weekChecks: {},
+  skills: {}
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('ec2dc_world');
+    if (saved) Object.assign(S, JSON.parse(saved));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem('ec2dc_world', JSON.stringify(S)); } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════════════
+(function() {
+  const container = document.getElementById('particles');
+  const colors = ['rgba(0,255,224,', 'rgba(0,94,255,', 'rgba(45,206,137,', 'rgba(176,0,255,'];
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 1;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const duration = Math.random() * 20 + 15;
+    const delay = Math.random() * 20;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${left}%;bottom:0;
+      background:${color}${Math.random() * 0.5 + 0.1});
+      animation-duration:${duration}s;animation-delay:${delay}s;
+      box-shadow:0 0 ${size * 2}px ${color}0.3)`;
+    container.appendChild(p);
+  }
+})();
+
+// ═══════════════════════════════════════════════
+// DEPTH METER
+// ═══════════════════════════════════════════════
+const depthSections = ['top','wins','destinations','health','saving','skills','roadmap','portfolio','mentors','projects'];
+function buildDepthMeter() {
+  const meter = document.getElementById('depthMeter');
+  depthSections.forEach((id, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'depth-dot';
+    dot.title = id;
+    dot.onclick = () => document.getElementById(id) && document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    meter.insertBefore(dot, meter.querySelector('.depth-label'));
+  });
+}
+function updateDepthMeter() {
+  const dots = document.querySelectorAll('.depth-dot');
+  let current = 0;
+  depthSections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) current = i;
+  });
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+// ═══════════════════════════════════════════════
+// NAV ACTIVE
+// ═══════════════════════════════════════════════
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+function updateNav() {
+  const navSections = document.querySelectorAll('section[id]');
+  let current = '';
+  navSections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 100) current = sec.id; });
+  navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href').replace('#','') === current));
+  updateDepthMeter();
+}
+window.addEventListener('scroll', updateNav, {passive:true});
+navLinks.forEach(link => link.addEventListener('click', e => {
+  e.preventDefault();
+  const t = document.querySelector(link.getAttribute('href'));
+  if (t) t.scrollIntoView({behavior:'smooth'});
+}));
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════
+// AWARDS
+// ═══════════════════════════════════════════════
+function earnAward(id, btn) {
+  S.awards[id] = true;
+  if (btn) { btn.textContent = '✓ Unlocked!'; btn.classList.add('earned'); btn.disabled = true; }
+  document.querySelectorAll(`.award-badge[data-award="${id}"]`).forEach(b => b.classList.add('unlocked'));
+  saveState();
+  updateProgress();
+  const msgs = {
+    portfolio_live: '🪸 Award unlocked: Portfolio Live! The hunt begins.',
+    aws_cp: '☁️ Award unlocked: AWS Certified! A new weapon in the arsenal.',
+    medical_passport: '🗂️ Award unlocked: Medical Passport Complete. Safety secured.',
+    first_app: '✉️ Award unlocked: First Applications Sent! Hunting in new waters.',
+    react_live: '⚛️ Award unlocked: React Live! Deep tech capability confirmed.',
+    visa_docs: '📜 Award unlocked: Visa Documents Ready! The gate is unlocked.',
+    offer_received: '🔱 Award unlocked: OFFER RECEIVED! The eldritch treasure is yours.',
+    dialysis_abroad: '🏥 Award unlocked: Dialysis Confirmed Abroad. Health secured internationally.',
+    degree_conferred: '🎓 Award unlocked: BA CONFERRED. 10 years → a degree. Earned.',
+    departed: '🌊 Award unlocked: DEPARTED! Detroit → World. The expedition succeeds.',
+    mentor_added: '🧭 Award unlocked: First Mentor logged. The council grows.',
+    ten_wins: '⚡ Award unlocked: 10 Work Wins documented! Momentum is evidence.',
+    savings_goal: '💎 Award unlocked: Savings Goal Hit! The treasure chest is full.'
+  };
+  showToast(msgs[id] || `🏆 Award unlocked: ${id}`);
+}
+
+function restoreAwards() {
+  Object.keys(S.awards).forEach(id => {
+    document.querySelectorAll(`.award-badge[data-award="${id}"]`).forEach(b => b.classList.add('unlocked'));
+  });
+}
+
+// ═══════════════════════════════════════════════
+// PROGRESS TRACKING
+// ═══════════════════════════════════════════════
+function buildPhaseProgressGrid() {
+  const grid = document.getElementById('phaseProgressGrid');
+  const labels = ['Phase 1: Foundations','Phase 2: Building','Phase 3: React','Phase 4: Launch','Phase 5: Departure','Saving Phase'];
+  grid.innerHTML = labels.map((l, i) => `
+    <div class="phase-prog-item">
+      <div class="phase-prog-label">${l}</div>
+      <div class="phase-prog-bar"><div class="phase-prog-fill" id="ppf-${i}" style="width:0%"></div></div>
+      <div class="phase-prog-pct" id="ppp-${i}">0%</div>
+    </div>`).join('');
+}
+
+function updateProgress() {
+  const phases = [0,1,2,3,4,5];
+  let totalPct = 0;
+  phases.forEach(i => {
+    const checks = Object.keys(S.weekChecks).filter(k => k.startsWith(`p${i}_`));
+    const total = document.querySelectorAll(`#weeks${i} .week-check, #phase${i} .week-check`).length || 1;
+    const done = checks.filter(k => S.weekChecks[k]).length;
+    const pct = Math.min(100, Math.round((done / (total||1)) * 100));
+    const fill = document.getElementById(`ppf-${i}`);
+    const lbl = document.getElementById(`ppp-${i}`);
+    if (fill) fill.style.width = pct + '%';
+    if (lbl) lbl.textContent = pct + '%';
+    totalPct += pct;
+  });
+  const avg = Math.round(totalPct / phases.length);
+  const tot = document.getElementById('totalPct');
+  if (tot) tot.textContent = avg + '%';
+}
+
+// ═══════════════════════════════════════════════
+// WEEKLY WINS
+// ═══════════════════════════════════════════════
+function renderWins() {
+  const list = document.getElementById('winsList');
+  if (!S.wins.length) { list.innerHTML = '<div class="wins-empty">No wins logged yet — every day is an opportunity to add one.</div>'; return; }
+  list.innerHTML = S.wins.slice().reverse().map((w, i) => `
+    <div class="win-entry">
+      <span class="win-tag win-tag-${w.tag}">${w.tag}</span>
+      <span class="win-text">${w.text}</span>
+      <span class="win-date">${w.date}</span>
+      <button class="win-del" onclick="deleteWin(${S.wins.length-1-i})">✕</button>
+    </div>`).join('');
+}
+
+function addWin() {
+  const input = document.getElementById('winInput');
+  const tag = document.getElementById('winTag').value;
+  const text = input.value.trim();
+  if (!text) return;
+  const now = new Date();
+  S.wins.push({ text, tag, date: now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) });
+  input.value = '';
+  saveState();
+  renderWins();
+  if (S.wins.length === 10) earnAward('ten_wins', null);
+  showToast('⚡ Win logged! Keep going.');
+}
+
+function deleteWin(idx) {
+  S.wins.splice(idx, 1);
+  saveState();
+  renderWins();
+}
+
+// ═══════════════════════════════════════════════
+// COUNTRY TABS
+// ═══════════════════════════════════════════════
+function showCTab(id) {
+  document.querySelectorAll('.country-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════
+// SAVING CALCULATOR
+// ═══════════════════════════════════════════════
+const countryData = {
+  de:{name:'Germany',currency:'€',rate:0.93,moveCost:12000,firstMonthRent:3200,visaFee:400,reserve:8000,notes:'GKV enrollment on arrival. Bürgeramt registration first.'},
+  ie:{name:'Ireland',currency:'€',rate:0.93,moveCost:11000,firstMonthRent:4200,visaFee:1000,reserve:9000,notes:'HSE enrollment. Medical Card application same week.'},
+  nl:{name:'Netherlands',currency:'€',rate:0.93,moveCost:13000,firstMonthRent:4500,visaFee:350,reserve:8500,notes:'Mandatory insurance €1,900/yr. IND registration required.'},
+  ca:{name:'Canada',currency:'C$',rate:1.36,moveCost:9000,firstMonthRent:3800,visaFee:1365,reserve:7000,notes:'3-month OHIP wait. Bridge insurance required. SIN card on arrival.'},
+  se:{name:'Sweden',currency:'SEK',rate:10.5,moveCost:13000,firstMonthRent:3500,visaFee:400,reserve:9000,notes:'Personnummer registration first. Landsting healthcare after that.'},
+  pt:{name:'Portugal',currency:'€',rate:0.93,moveCost:9000,firstMonthRent:2200,visaFee:300,reserve:6000,notes:'NHR tax status first year. SNS healthcare enrollment.'},
+  no:{name:'Norway',currency:'NOK',rate:10.7,moveCost:14000,firstMonthRent:4000,visaFee:500,reserve:10000,notes:'D-number for banking and healthcare. Helfo registration.'},
+  dk:{name:'Denmark',currency:'DKK',rate:6.9,moveCost:13000,firstMonthRent:3800,visaFee:400,reserve:9000,notes:'CPR number is your everything. Get it first week.'}
+};
+
+function calcSaving() {
+  const income = +document.getElementById('calcIncome').value || 0;
+  const expenses = +document.getElementById('calcExpenses').value || 0;
+  const country = document.getElementById('calcCountry').value;
+  const moveDate = new Date(document.getElementById('calcDate').value + '-01');
+  const now = new Date();
+  const monthsLeft = Math.max(1, (moveDate.getFullYear() - now.getFullYear()) * 12 + (moveDate.getMonth() - now.getMonth()));
+  const surplus = income - expenses;
+  const projected = surplus * monthsLeft;
+  const cd = countryData[country];
+  const totalNeeded = cd.moveCost + cd.firstMonthRent + cd.visaFee + cd.reserve;
+  const deficit = Math.max(0, totalNeeded - projected);
+  const monthlyNeeded = deficit > 0 ? Math.ceil(deficit / monthsLeft) : 0;
+  const readyPct = Math.min(100, Math.round((projected / totalNeeded) * 100));
+
+  document.getElementById('calcResults').innerHTML = `
+    <div class="calc-result-box"><div class="calc-result-val">$${surplus.toLocaleString()}</div><div class="calc-result-label">Monthly Surplus</div></div>
+    <div class="calc-result-box"><div class="calc-result-val">$${projected.toLocaleString()}</div><div class="calc-result-label">Projected by Move Date</div></div>
+    <div class="calc-result-box"><div class="calc-result-val">$${totalNeeded.toLocaleString()}</div><div class="calc-result-label">Total Needed (${cd.name})</div></div>
+    <div class="calc-result-box"><div class="calc-result-val" style="color:${deficit>0?'#ff9a9a':'#2dce89'}">${deficit>0?'$'+deficit.toLocaleString()+' short':'✓ Funded'}</div><div class="calc-result-label">${deficit>0?'Gap — save $'+monthlyNeeded+'/mo extra':'On track!'}</div></div>`;
+
+  document.getElementById('calcTimeline').innerHTML = `
+    <div class="timeline-seg tl-save" style="flex:${monthsLeft}">Save ${monthsLeft} mo</div>
+    <div class="timeline-seg tl-move" style="flex:2">Move</div>
+    <div class="timeline-seg tl-settle" style="flex:3">Settle</div>
+    <div class="timeline-seg tl-dir" style="flex:4">→ Creative Dir.</div>`;
+
+  if (readyPct >= 100 && deficit === 0) earnAward('savings_goal', null);
+}
+
+function trackSurplus() {
+  const income = +document.getElementById('surplusIncome').value || 0;
+  const expenses = +document.getElementById('surplusExpenses').value || 0;
+  const current = +document.getElementById('currentSavings').value || 0;
+  const target = +document.getElementById('targetFund').value || 18000;
+  const surplus = income - expenses;
+  const remaining = Math.max(0, target - current);
+  const months = surplus > 0 ? Math.ceil(remaining / surplus) : 999;
+  const pct = Math.min(100, Math.round((current / target) * 100));
+
+  document.getElementById('surplusResults').innerHTML = `
+    <div class="calc-result-box"><div class="calc-result-val" style="color:${surplus>0?'#2dce89':'#ff9a9a'}">$${surplus.toLocaleString()}</div><div class="calc-result-label">Monthly Surplus</div></div>
+    <div class="calc-result-box"><div class="calc-result-val">${pct}%</div><div class="calc-result-label">Goal Progress</div></div>
+    <div class="calc-result-box"><div class="calc-result-val">$${remaining.toLocaleString()}</div><div class="calc-result-label">Remaining to Goal</div></div>
+    <div class="calc-result-box"><div class="calc-result-val" style="color:${months<18?'#2dce89':'#ffd700'}">${months<999?months+' mo':'N/A'}</div><div class="calc-result-label">Months to Target</div></div>`;
+}
+
+// ═══════════════════════════════════════════════
+// SKILL TRACKING
+// ═══════════════════════════════════════════════
+function toggleSkill(card, id) {
+  const pct = S.skills[id] || 0;
+  const newPct = pct >= 100 ? 0 : pct + 25;
+  S.skills[id] = newPct;
+  const fill = document.getElementById('sp-' + id);
+  if (fill) fill.style.width = newPct + '%';
+  if (newPct > 0) card.classList.add('unlocked');
+  else card.classList.remove('unlocked');
+  saveState();
+  showToast(`${id} skill → ${newPct}% (click to increase)`);
+}
+
+function restoreSkills() {
+  Object.entries(S.skills).forEach(([id, pct]) => {
+    const fill = document.getElementById('sp-' + id);
+    if (fill) fill.style.width = pct + '%';
+    const card = document.querySelector(`[data-id="${id}"]`);
+    if (card && pct > 0) card.classList.add('unlocked');
+  });
+}
+
+// ═══════════════════════════════════════════════
+// MENTORS
+// ═══════════════════════════════════════════════
+function renderMentors() {
+  const list = document.getElementById('mentorsList');
+  if (!S.mentors.length) { list.innerHTML = ''; return; }
+  list.innerHTML = S.mentors.map((m, i) => `
+    <div class="mentor-card">
+      <button class="mentor-del btn-del" onclick="deleteMentor(${i})">✕</button>
+      <div class="mentor-avatar">${m.emoji || '🧭'}</div>
+      <div class="mentor-name">${m.name}</div>
+      <div class="mentor-role">${m.role}</div>
+      <div class="mentor-note">${m.note}</div>
+    </div>`).join('');
+}
+
+function addMentor() {
+  const name = document.getElementById('mentorName').value.trim();
+  const role = document.getElementById('mentorRole').value.trim();
+  const emoji = document.getElementById('mentorEmoji').value.trim() || '🧭';
+  const note = document.getElementById('mentorNote').value.trim();
+  if (!name) return;
+  S.mentors.push({name, role, emoji, note});
+  ['mentorName','mentorRole','mentorEmoji','mentorNote'].forEach(id => document.getElementById(id).value = '');
+  saveState();
+  renderMentors();
+  earnAward('mentor_added', document.getElementById('mentorCheckpoint'));
+  showToast(`🧭 Mentor ${name} added to the council.`);
+}
+
+function deleteMentor(i) {
+  S.mentors.splice(i, 1);
+  saveState();
+  renderMentors();
+}
+
+// ═══════════════════════════════════════════════
+// PROJECTS
+// ═══════════════════════════════════════════════
+const typeLabels = {design:'Design',dev:'Dev / Code',aws:'AWS / Cloud',art:'Art / Brand'};
+const typeClasses = {design:'pt-design',dev:'pt-dev',aws:'pt-aws',art:'pt-art'};
+
+function renderProjects() {
+  const list = document.getElementById('projectsList');
+  const display = document.getElementById('projectsDisplay');
+  const html = S.projects.map((p, i) => `
+    <div class="project-card">
+      <div class="project-thumb">${p.emoji || '🚀'}<span class="project-type-badge ${typeClasses[p.type]||'pt-design'}">${typeLabels[p.type]||'Design'}</span></div>
+      <div class="project-body">
+        <div class="project-name">${p.name}</div>
+        <div class="project-desc">${p.desc}</div>
+        <div class="project-tags">${(p.tags||[]).map(t=>`<span class="project-tag">${t}</span>`).join('')}</div>
+        <div class="project-links">
+          ${p.live?`<a class="project-link" href="${p.live}" target="_blank">🔗 Live</a>`:''}
+          ${p.github?`<a class="project-link" href="${p.github}" target="_blank">⬡ GitHub</a>`:''}
+          <button class="project-link" onclick="deleteProject(${i})" style="cursor:pointer">✕ Remove</button>
+        </div>
+      </div>
+    </div>`).join('') || '<div class="wins-empty">No projects yet — every week of the roadmap should produce one. Start small.</div>';
+  if (list) list.innerHTML = html;
+  if (display) display.innerHTML = S.projects.length ? html : '<div style="color:rgba(200,216,232,.3);font-size:13px;padding:.5rem">Projects added in the Projects section appear here.</div>';
+}
+
+function addProject() {
+  const name = document.getElementById('projName').value.trim();
+  const desc = document.getElementById('projDesc').value.trim();
+  const type = document.getElementById('projType').value;
+  const tags = document.getElementById('projTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const live = document.getElementById('projLive').value.trim();
+  const github = document.getElementById('projGithub').value.trim();
+  const emoji = document.getElementById('projEmoji').value.trim() || '🚀';
+  if (!name) return;
+  S.projects.push({name, desc, type, tags, live, github, emoji});
+  ['projName','projDesc','projTags','projLive','projGithub','projEmoji'].forEach(id => document.getElementById(id).value = '');
+  saveState();
+  renderProjects();
+  showToast(`🚀 Project "${name}" added to the vault.`);
+}
+
+function deleteProject(i) {
+  S.projects.splice(i, 1);
+  saveState();
+  renderProjects();
+}
+
+// ═══════════════════════════════════════════════
+// VIDEO REEL
+// ═══════════════════════════════════════════════
+function renderVideos() {
+  const list = document.getElementById('videoList');
+  if (!S.videos.length) { list.innerHTML = '<div class="wins-empty">No clips added yet. Add your first process video or portfolio walkthrough.</div>'; return; }
+  list.innerHTML = S.videos.map((v, i) => `
+    <div class="video-entry">
+      <div class="video-thumb">🎬</div>
+      <div style="flex:1">
+        <div class="video-title">${v.title}</div>
+        ${v.url?`<div style="font-size:10px;color:rgba(0,255,224,.4);margin-top:2px"><a href="${v.url}" target="_blank" style="color:inherit">${v.url.substring(0,40)}...</a></div>`:''}
+        ${v.desc?`<div style="font-size:11px;color:rgba(200,216,232,.35);margin-top:2px">${v.desc}</div>`:''}
+      </div>
+      <div class="video-date">${v.date}</div>
+      <button class="win-del" onclick="deleteVideo(${i})">✕</button>
+    </div>`).join('');
+}
+
+function addVideo() {
+  const title = document.getElementById('videoTitle').value.trim();
+  const url = document.getElementById('videoUrl').value.trim();
+  const desc = document.getElementById('videoDesc').value.trim();
+  if (!title) return;
+  const now = new Date();
+  S.videos.push({title, url, desc, date: now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
+  ['videoTitle','videoUrl','videoDesc'].forEach(id => document.getElementById(id).value = '');
+  saveState();
+  renderVideos();
+  showToast('🎬 Added to the reel!');
+}
+
+function deleteVideo(i) {
+  S.videos.splice(i, 1);
+  saveState();
+  renderVideos();
+}
+
+// ═══════════════════════════════════════════════
+// ROADMAP DATA
+// ═══════════════════════════════════════════════
+const phases = [
+  // Phase 1
+  [
+    {w:"Weeks 1–2",t:"Set up tech stack + pick your destination country",tasks:["Install VS Code, Git, set up GitHub — create your first repo and push a file","Start Mimo HTML track — 30 minutes a day minimum, every day","Make your country decision: Ireland (easiest, English), Germany (best healthcare long-term), Canada (fastest PR). This shapes your language choice."],lang:"Based on destination: Ireland = no new language needed. Germany = start German on Duolingo TODAY. Canada = consider French for higher CRS score.",health:"Contact your dialysis center this week — ask them to begin drafting an international treatment summary letter that covers ALL THREE access points: left groin catheter, non-functional right arm fistula, and HERO graft. This takes time. Start now.",aws:"Watch AWS Cloud Practitioner intro overview — just orientation this week.",ms:null},
+    {w:"Weeks 3–4",t:"HTML/CSS basics + first dialysis clinic research abroad",tasks:["Mimo: complete HTML5 + CSS3 fundamentals — build and push a styled HTML page to GitHub","Research dialysis centers in your target city: Beaumont Hospital (Dublin), Charité (Berlin), OLVG (Amsterdam), Toronto General (Toronto), Karolinska (Stockholm)","Email or call 1–2 dialysis clinics abroad: specifically ask if they manage HERO grafts — this is specialized. Not all international centers have seen them."],lang:"Duolingo: 15 minutes every single day. Pick your language — commit to it. Do not skip.",health:"Begin building your 'medical passport': left groin catheter details (placement date, brand, dressing protocol), HERO graft documentation (implant date, outflow vessel, graft segment), right arm fistula history (creation date, reason non-functional). You will need ALL of this abroad.",aws:"Start the AWS Cloud Practitioner course — complete 2 modules per week.",ms:null},
+    {w:"Weeks 5–6",t:"JavaScript starts + visa research begins",tasks:["Mimo: JavaScript — variables, functions, loops, DOM manipulation. Build a small interactive page.","Research your target country's specific visa: Ireland CSEP, Germany Skilled Worker Visa, Netherlands Highly Skilled Migrant, or Canada Express Entry","Order official documents NOW — degree transcripts (in-progress is fine), birth certificate apostille, criminal background check. These take weeks to months."],lang:"Study professional vocabulary in your target language: your job title, your skills, 'I am looking for work in technology.'",health:"Ask your nephrologist to write a formal medical summary letter covering: (1) left groin tunneled femoral catheter — current active access, (2) HERO chest graft — status and management requirements, (3) right arm AVF — non-functional, history of failed maturation/thrombosis. One letter, all three sites, in English.",aws:"Complete 2 more AWS modules. Take written notes — the exam is achievable.",ms:null},
+    {w:"Weeks 7–8",t:"First live project + portfolio live on the internet",tasks:["Build and deploy your portfolio site to GitHub Pages or Netlify — must be at a real URL by end of this week","Update LinkedIn: 'Front-End Developer (in training) | Graphic Designer | Open to opportunities in [target country]'","List 20 companies in your target city that hire designers or front-end devs. Bookmark their careers pages."],lang:"Reach a 30-day Duolingo streak. Practice a basic self-introduction in your target language until it's smooth.",health:"Germany-specific: Contact TK (Techniker Krankenkasse) international team. Ask specifically about Hämodialyse coverage for incoming skilled workers WITH complex vascular access including HERO grafts — you want written confirmation they can manage your specific access type.",aws:"Complete all AWS Cloud Practitioner modules. Schedule your exam date for the next 2–3 weeks.",ms:"✦ Phase 1 milestone: Portfolio live at real URL · Medical passport drafted for all three access sites · Target country decided · AWS exam date booked"},
+  ],
+  // Phase 2
+  [
+    {w:"Weeks 9–11",t:"CSS Grid + Flexbox + UX/UI principles applied",tasks:["Master CSS Grid and Flexbox — rebuild your portfolio layout using Grid","Make your portfolio fully responsive — test on mobile in Chrome DevTools device mode","Study 5 UX laws: Hick's Law, Fitts's Law, Jakob's Law, Proximity, Miller's Law. Apply all five to a portfolio audit."],lang:"Learn numbers, scheduling phrases, and medical appointment vocabulary. Practice: 'I have a chronic medical condition that requires regular treatment and I have complex vascular access including a specialized chest graft.'",health:"Netherlands: confirm with a Dutch insurer (CZ, Menzis, or VGZ) that your HERO graft is covered under the basic package and that they have network facilities managing this access type. Get it in writing.",aws:"Take the AWS Cloud Practitioner exam this block. Pass = major credential on a European or Canadian résumé.",ms:null},
+    {w:"Weeks 12–13",t:"Interactive JS projects — two polished mini-apps",tasks:["Build a JS form validator — required fields, email format check, real error states with red borders and helper text","Build an image carousel OR a tabbed content component from scratch in vanilla JS","Apply your graphic design eye to both — these should look polished, not like coding tutorials"],lang:"Read simple news in your target language: Deutsche Welle Learn German, NL Times Netherlands, CBC Canada, The Local Sweden.",health:"Canada: Research provincial health coverage wait period — Ontario is 3 months, some provinces waive it for urgent/chronic conditions. Contact the provincial health office directly and mention you have complex dialysis access needs (HERO graft) that require experienced renal nursing. Urgency can waive wait periods.",aws:"AWS certified! Add to LinkedIn and résumé immediately. Research next cert: AWS Solutions Architect Associate.",ms:null},
+    {w:"Weeks 14–16",t:"Portfolio v2 + case studies + LinkedIn relaunch",tasks:["Write a case study for SkullDAWG Productions — problem, your process, measurable results","Write a case study for your best JS project — what you built, why, what you learned","Send 5 cold connection requests to recruiters in your target city with a personalized note"],lang:"Write a 3-sentence professional bio in your target language. Share it on a language exchange app (Tandem or HelloTalk) and ask for feedback.",health:"Build your 'dialysis abroad transition kit': (1) nephrology letter covering all three access points with current imaging, (2) medications list with generic names and dosages, (3) nephrologist contact letter authorizing international clinic to contact them directly, (4) HERO graft product information sheet from manufacturer, (5) insurance enrollment documentation target country. This is the most important non-tech document you will create.",aws:"Start AWS Solutions Architect Associate study — free materials on YouTube and A Cloud Guru.",ms:"✦ Phase 2 milestone: Portfolio v2 live with case studies · AWS Cloud Practitioner certified · LinkedIn relaunched · Full dialysis transition kit complete covering all three access sites"},
+  ],
+  // Phase 3
+  [
+    {w:"Weeks 17–19",t:"React fundamentals — the career-level skill",tasks:["Learn React: components, props, useState, useEffect — build a to-do app with full CRUD","Set up Vite. Learn the folder structure. Deploy your first React project to Netlify.","Add React Router — multi-page React apps open significantly more job doors"],lang:"Target A2 level by end of this phase. Take a free CEFR online test and assess honestly.",health:"Contact your target country's kidney foundation: Deutsche Nierenstiftung (Germany), Nierstichting (Netherlands), Kidney Care UK (for Ireland contacts), Kidney Foundation of Canada. Ask them specifically about HERO graft management in their country's dialysis centers. This is specialized access — you need to confirm capability before you book flights.",aws:"Continue AWS Solutions Architect Associate — 2 modules per week.",ms:null},
+    {w:"Weeks 20–21",t:"React project + first international applications sent",tasks:["Build a React dashboard or brand showcase app — your best technical project to date","Apply to 10 roles in your target country: design technologist, front-end developer, UX/UI designer, web designer. Use LinkedIn Easy Apply and direct company applications.","Specifically target hybrid roles that value both design AND IT background — you are rare and valuable in that overlap"],lang:"Practice a mock job interview in your target language. Record yourself. 3 minutes answering 'Tell me about yourself.' It doesn't have to be perfect.",health:"Germany specific: Contact TK international department. Ask specifically: 'I am a skilled worker planning to relocate. I require regular Hämodialyse with complex vascular access including a HeRO (Hemodialysis Reliable Outflow) graft. How do I enroll in GKV and what is the timeline for coverage to begin?'",aws:"Aim to complete AWS Solutions Architect Associate exam — a strong differentiator in EU and Canadian tech job markets.",ms:null},
+    {w:"Weeks 22–24",t:"Visa application documents compiled",tasks:["Compile full visa application packet: degree transcripts, CV in target country format, cover letter template, document translations if needed","Germany note: transcripts may need official translation by a certified translator (sworn translator / beeidigter Übersetzer)","Create a European-format CV — 1-2 pages, no photo unless Germany specifically, AWS and BA listed prominently, SkullDAWG as a real business"],lang:"Research language certification options — TestDaF for Germany PR track, CELPIP or IELTS for Canada, NT2 for Netherlands integration exam.",health:"Have your US nephrologist draft a 'dialysis continuity letter' — a signed document stating: current active access (left groin catheter), secondary complex access (HERO chest graft with management requirements), non-functional access history (right arm AVF — do not attempt cannulation), standard treatment protocol (Kt/V target, blood flow rate, session duration, frequency). This letter is your medical lifeline document.",aws:"Update résumé and LinkedIn with all certs. The combined AWS + Cybersecurity angle is particularly valued in EU IT hiring.",ms:"✦ Phase 3 milestone: 10 international applications sent · React project live · Visa documents compiled · Full dialysis continuity letter drafted covering all three access sites"},
+  ],
+  // Phase 4
+  [
+    {w:"Weeks 25–27",t:"Active job search + React portfolio rebuild",tasks:["Convert your entire portfolio to React with React Router — signals seniority to hiring managers","Apply to 5 roles per week. Track everything in a spreadsheet: company, role, date applied, follow-up date, status","Network deliberately: connect with 10 people per week in your target city on LinkedIn — designers, developers, recruiters, not just HR"],lang:"Book and take a formal CEFR language proficiency test. Even a B1 score below target demonstrates commitment and is noted positively by employers and immigration officers.",health:"Ireland specific: Contact HSE international patient team. Ask how to register as a dialysis patient upon arrival with a Critical Skills Employment Permit. Specifically confirm their renal team has managed HERO grafts — if they haven't, identify the specific center that has and plan to register there.",aws:"Research how your AWS skills appear in European job postings — search 'AWS cloud jobs Dublin' or 'AWS Fachkraft Berlin.' You'll find the terminology they use in job descriptions.",ms:null},
+    {w:"Weeks 28–30",t:"Interviews + visa paperwork finalizing",tasks:["Prepare 3 design portfolio stories using STAR format — Situation, Task, Action, Result. Practice until they're second nature.","If you receive a job offer: begin visa application IMMEDIATELY. Processing times vary — Ireland CSEP 6-8 weeks, Germany 4-12 weeks, Netherlands 2 weeks (fast-track with recognized sponsor), Canada Express Entry 6 months","Research housing in your target city NOW — Dublin and Amsterdam markets are extremely competitive. Begin shortlisting neighborhoods and budgeting for 1-2 months rent in advance."],lang:"If Germany is your destination: enroll in formal German classes online — Goethe Institut has structured online courses.",health:"Map out the logistics: How many dialysis sessions per week? Which specific clinic will you register with? Do they accept international patient transfers with HERO grafts? Do they need your US nephrologist to contact them directly first? Who manages the catheter dressing — do they have a protocol for femoral tunneled catheters? Get all of this answered before you book flights.",ms:null},
+    {w:"Weeks 31–34",t:"Final portfolio push + graduation credential confirmation",tasks:["Confirm October 2027 graduation date and all credit requirements with Henry Ford College — no surprises","Finalize BA-level CV — the completed degree changes your visa eligibility significantly in every target country. Update everything once conferred.","If you have a job offer: lock in your move date. Give your employer 4+ weeks notice. Contact dialysis center to coordinate your last US session and first session abroad."],lang:"Final language push: Duolingo + formal study + weekly conversation partner. Aim for functional conversational ability — not perfect, just functional — before you board the plane.",health:"This is the critical coordination window: US dialysis center writes transfer documents → target clinic schedules your intake appointment and reviews HERO graft management protocol → target country insurer confirms your coverage start date. Coordinate all three simultaneously. Give yourself 8 weeks minimum. For the HERO graft specifically, send the clinic the manufacturer's management protocol document in advance.",aws:"Final résumé check: BA (Oct 2027), AWS Cloud Practitioner, AWS Solutions Architect (if earned), Cybersecurity Certificate (SNHU), 10+ years design, Amazon IT associate, front-end developer. This is a powerful package.",ms:"✦ Phase 4 milestone: Job offer received or interviews in final rounds · Visa in process · Housing shortlisted · Graduation confirmed on track · Target clinic confirmed HERO graft capable"},
+  ],
+  // Phase 5
+  [
+    {w:"September 2027",t:"Final US preparations — every detail coordinated",tasks:["Confirm visa approval and move date — aim to depart within 2-4 weeks of graduation","Final US dialysis session: get a 30-day emergency supply of medications if possible. Carry ALL dialysis documentation (covering all three access sites) in your carry-on, not checked bags.","Book flights around your dialysis schedule — do not plan travel days on treatment days. Confirm your first appointment at the new clinic before you purchase tickets."],lang:"You've been studying for 16+ months. Functional conversation is your superpower. Use it from day one in your new city.",health:"On arrival — Day 1 priorities by country: Germany → register at local Bürgeramt first, then enroll in GKV immediately. Ireland → register with a local GP and begin Medical Card application. Netherlands → enroll in Dutch insurer within 4 months. Canada → apply to provincial health plan same day (3-month wait begins). At EVERY destination: present all three access site documents to the renal team on your first visit — do not wait for them to ask.",aws:null,ms:null},
+    {w:"October 2027",t:"Degree conferred. You have arrived. Equipment Tech → Creative Director.",tasks:["BA Graphic Design (Web Design + UX/UI focus) conferred by Henry Ford College — October 2027. Update LinkedIn, résumé, and everything else immediately.","Set your 12-month post-arrival goals: stabilize at work, reach B1 language fluency, build a local professional network, begin permanent residency track application","You are now: a BA-holding graphic designer with 10+ years experience, front-end dev skills (HTML/CSS/JS/React), AWS certified, IT background from Amazon, complex dialysis managed internationally."],lang:"Sign up for in-person language classes in your new city within the first month. This is how you build community, not just vocabulary.",health:"3-6 months after arrival: have a conversation with your new nephrologist about transplant waitlist options. All eligible countries have organ donation programs. Legal residency and stable employment are favorable factors for transplant evaluation. Also discuss HERO graft longevity and long-term access planning — this is the time to establish a proactive relationship with your new renal team.",aws:null,ms:"✦ You did it. Equipment Tech → Design Technologist → Global Creative Director. October 2027. Detroit → World. 🌍"},
+  ]
+];
+
+function buildWeeks(phaseData, containerId, phaseIdx) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  phaseData.forEach((week, wIdx) => {
+    const key = `p${phaseIdx}_w${wIdx}`;
+    const isDone = S.weekChecks[key];
+    const el = document.createElement('div');
+    el.className = 'week-card' + (isDone ? ' completed' : '');
+    const tasksHtml = week.tasks.map(t => `<div class="week-task">${t}</div>`).join('');
+    const langHtml = week.lang ? `<div class="week-section"><div class="week-section-label">Language</div><div class="week-task week-lang">🌍 ${week.lang}</div></div>` : '';
+    const healthHtml = week.health ? `<div class="week-section"><div class="week-section-label">Dialysis + healthcare</div><div class="week-task week-health">🏥 ${week.health}</div></div>` : '';
+    const awsHtml = week.aws ? `<div class="week-section"><div class="week-section-label">AWS / certs</div><div class="week-task week-aws">☁️ ${week.aws}</div></div>` : '';
+    const msHtml = week.ms ? `<div class="milestone-box ms${phaseIdx}">${week.ms}</div>` : '';
+    el.innerHTML = `
+      <div class="week-header" onclick="toggleWeek(this)">
+        <div class="week-check ${isDone?'done':''}" onclick="checkWeek(event,'${key}',this)">
+          ${isDone?'✓':''}
+        </div>
+        <span class="week-num wn${phaseIdx}">${week.w}</span>
+        <span class="week-title">${week.t}</span>
+        <span class="week-arrow">▾</span>
+      </div>
+      <div class="week-body">
+        <div class="week-section"><div class="week-section-label">This period's focus</div>${tasksHtml}</div>
+        ${langHtml}${healthHtml}${awsHtml}${msHtml}
+      </div>`;
+    container.appendChild(el);
+  });
+}
+
+function checkWeek(event, key, checkEl) {
+  event.stopPropagation();
+  S.weekChecks[key] = !S.weekChecks[key];
+  checkEl.textContent = S.weekChecks[key] ? '✓' : '';
+  checkEl.classList.toggle('done', S.weekChecks[key]);
+  checkEl.closest('.week-card').classList.toggle('completed', S.weekChecks[key]);
+  saveState();
+  updateProgress();
+}
+
+function toggleWeek(header) {
+  if (event.target.classList.contains('week-check') || event.target.closest('.week-check')) return;
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.week-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function showPhase(n) {
+  document.querySelectorAll('.phase-content').forEach((el, i) => el.classList.toggle('show', i === n));
+  document.querySelectorAll('.phase-tab').forEach((el, i) => el.classList.toggle('active', i === n));
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+loadState();
+buildDepthMeter();
+buildPhaseProgressGrid();
+
+phases.forEach((phase, i) => buildWeeks(phase, `weeks${i}`, i));
+
+renderWins();
+renderMentors();
+renderProjects();
+renderVideos();
+restoreAwards();
+restoreSkills();
+updateProgress();
+updateNav();
+
+calcSaving();
+trackSurplus();
+</script>
+</body>
+</html>
